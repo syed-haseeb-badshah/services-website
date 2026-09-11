@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" fill="none">
+ <defs><radialGradient id="shade"><stop stop-color="#2c303b"/><stop offset="1" stop-color="#1b1c24"/></radialGradient><pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="2.4" fill="#11131b" fill-opacity=".25"/></pattern></defs>
+ <path fill="url(#shade)" d="M0 0h1440v900H0z"/>
+ <path d="M0 0c85 30 28 164 197 95S446-7 601 44s210-98 287 17 17 163 227 144 229 71 325 172V0Z" fill="#30343e" fill-opacity=".52"/>
+ <path d="M0 283c104 79 164-123 318-51s158 60 263 6 226-137 353-50 102 155 300 166 67 83 206 111v176c-134-83-232 77-367 10S886 523 748 628 581 577 452 646 300 747 150 666 58 580 0 513Z" fill="url(#dots)"/>
+ <path d="M0 500c84 111 8 187 190 187s98 149 165 213H0Z" fill="#363c47" fill-opacity=".62"/>
+ <path d="M0 900h1440V565c-151 79-172 144-296 96s-164-132-290-43-191 141-326 48-253 13-182 112 114 91 162 122Z" fill="#2c303b" fill-opacity=".52"/>
+ <path d="M336 900c61-143 216-148 310-90s213 37 348-18 210-140 303-103-1 142 143 184v27Z" fill="#181a22" fill-opacity=".55"/>
+</svg>

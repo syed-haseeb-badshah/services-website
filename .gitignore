@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.tsbuildinfo
+*.zip
+.env*
+.recovery/
+.vscode/
+*.log
