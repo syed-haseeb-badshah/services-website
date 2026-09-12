@@ -30,13 +30,14 @@ input,select,textarea{background:#20232d;color:#f6f6fa;border-color:#5e6372}
 @media(max-width:760px){body{background-size:auto 1100px;background-position:center top}}
 
 /* Near-black navigation, pale feature photograph, consistent charcoal sections. */
-.site-header{background:#000;isolation:isolate;position:sticky;top:0;z-index:50}
+.site-header{background:#000;isolation:isolate;position:sticky;top:0;z-index:50;height:76px}
 .site-header:before{content:'';position:absolute;inset-block:0;left:calc((100% - 100vw)/2);width:100vw;background:#000;z-index:-1;pointer-events:none}
 .announcement{background:#fff;color:#20222c}
 .services-mega,.centered-header>nav.open{background:#000}
 .centered-header .desktop-cta,.centered-header .mobile-cta{background:#fff;color:#111;border:1px solid #fff;border-radius:5px;padding:16px 25px;font-size:16px;font-weight:650;text-align:center;min-height:52px}
 .centered-header .desktop-cta:hover,.centered-header .mobile-cta:hover{background:#e4e6ec;border-color:#e4e6ec;color:#000}
 .centered-header .mobile-cta{margin-top:12px}
+@media(max-width:900px){.site-header.centered-header{height:68px}.centered-header>nav{top:68px;max-height:calc(100dvh - 68px)}.centered-header .logo img.wordmark{height:44px;width:auto}}
 .feature-project{background:#f4f4f5;color:#252832}
 .feature-project>img{filter:grayscale(1);opacity:.2}
 .feature-project:after{background:linear-gradient(180deg,#ffffff35,transparent 45%,#f4f4f5a6)}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './contact-cta.css';
+import './pre-footer-cta.css';
 
 export default function PreFooterCTA() {
   return (
@@ -20,7 +20,7 @@ export default function PreFooterCTA() {
 
         {/* Subtitle */}
         <p className="pre-footer-subtitle">
-          Let's build something amazing together. Free consultation, custom quote within 24 hours.
+          Let’s build something meaningful together. Tell us your goals and we’ll shape a clear plan and a tailored quote.
         </p>
 
         {/* Action Buttons */}

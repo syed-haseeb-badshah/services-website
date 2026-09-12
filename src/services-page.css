@@ -1,0 +1,17 @@
+.services-page{color:#f7f7fa}.services-banner{padding-top:58px;padding-bottom:48px}.services-banner h1{font-size:clamp(42px,4.5vw,64px);margin-bottom:22px}.services-banner>p:last-child{max-width:660px;font-size:18px;color:#c4cbd8;margin-bottom:0}
+.services-white-surface{background:#fff;color:#20222c;color-scheme:light;--line:#dce1e9;--muted:#616b7c;padding-bottom:25px}
+.services-filter-start{padding-top:36px}.services-category-filters{display:flex;flex-wrap:wrap;gap:12px}
+.services-category-filters>button{font-size:15px;line-height:1.5;background:#fff;color:#343b49;border:1px solid #d6dce6;border-radius:999px;padding:13px 21px;min-height:49px;font-weight:500}
+.services-category-filters>button[aria-pressed=true]{border-color:var(--filter-color);box-shadow:inset 0 0 0 1px var(--filter-color);background:color-mix(in srgb,var(--filter-color) 9%,white);color:#20222c;font-weight:700}
+.services-category-filters>button:hover{border-color:var(--filter-color);background:color-mix(in srgb,var(--filter-color) 6%,white)}
+.services-category-filters>button:focus-visible{outline:3px solid var(--filter-color);outline-offset:4px}
+.services-result-count{color:#637083;font-size:14px;margin:21px 0 0;line-height:1.6}
+.services-white-surface .services-catalogue{background:#fff;color:#20222c;padding:24px 0 55px}.services-catalogue .all-services-group{background:#fff;color:#20222c}
+.services-catalogue .service-group-heading{border-color:#dbe0e9}.services-catalogue .service-group-heading h3{color:#20222c;font-size:26px;margin:0;line-height:1.4}
+.services-catalogue .service-group-badge{background:#f4f6f9;color:#5b6578;border-color:#dce2ec}
+.services-catalogue .all-service-card{background:#fff;border-color:#dbe0e9;box-shadow:0 5px 20px #20222c05}
+.services-catalogue .all-service-card h4{color:#20222c}.services-catalogue .all-service-card p{color:#5d687a}
+.services-catalogue .all-service-card:hover,.services-catalogue .all-service-card:focus-visible{background:#fafbfd;border-color:var(--cat-color);box-shadow:0 8px 25px #20222c0c}
+.services-catalogue .all-service-card:focus-visible{outline:2px solid var(--cat-color);outline-offset:4px}
+.services-catalogue .all-service-icon{background:#20222c;border-color:#3c4455}
+@media(max-width:640px){.services-banner{padding-top:36px;padding-bottom:36px}.services-filter-start{padding-top:25px}.services-category-filters{gap:9px}.services-category-filters>button{font-size:14px;padding:11px 15px}.services-catalogue .service-group-heading h3{font-size:22px}.services-catalogue .service-group-heading{align-items:flex-start}.services-catalogue .service-group-badge{font-size:12px;padding:4px 9px}}

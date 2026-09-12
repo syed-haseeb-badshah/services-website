@@ -1,4 +1,4 @@
-export const brand = { name: 'Aster Digital', logo: '/logo.svg', wordmark: '/wordmark.svg', tagline: 'Good things grow with intention.', region: 'Pakistan & beyond', email: '', phone: '', whatsapp: '', booking: '', socials: [] as {name:string,url:string}[], colors: {ivory:'#f8f5ef', ink:'#252922', green:'#203c30', accent:'#af563b'}, description: 'Thoughtful websites, distinctive brands, and purposeful digital marketing for businesses ready for their next chapter.' };
+export const brand = { name: 'Aster Digital', logo: '/logo.svg', wordmark: '/wordmark.svg', tagline: 'Good things grow with intention.', region: 'United Kingdom & beyond', email: '', phone: '', whatsapp: '', booking: '', socials: [] as {name:string,url:string}[], colors: {ivory:'#f8f5ef', ink:'#252922', green:'#203c30', accent:'#af563b'}, description: 'Thoughtful websites, distinctive brands, and purposeful digital marketing for businesses ready for their next chapter.' };
 export const groups = ['All Services','Web Design & Development','Videography & Photography','Brand & Content','Technology'];
 const serviceRows = [
 ['Web design & development','Web Design & Development','Turn a confusing website into a clear path from first visit to enquiry.','Discovery & sitemap|Responsive interface design|Accessible frontend|Launch checklist'],
@@ -62,3 +62,4 @@ export function projectsForService(service:typeof services[number]):ShowcaseProj
   service.group==='Videography & Photography'?'A warm creative direction for people and shared spaces.':p.approach
  ][i]}));
 }
+

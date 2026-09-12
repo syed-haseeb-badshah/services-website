@@ -3,17 +3,26 @@ import {serviceCategories,services} from './content';
 import {ServiceLogo,categoryThemeMap} from './service-logos';
 import './home-services.css';
 
-export default function HomeServices(){
+export default function HomeServices({categorySlug,directory=false}:{categorySlug?:string;directory?:boolean}={}){
+  if(directory&&!categorySlug){
+    return <section className="all-services section services-catalogue" aria-label="Service catalogue"><div className="wrap"><div className="all-services-grid">
+      {services.map(service=><Link className="all-service-card" key={service.slug} to={'/services/'+service.slug} style={{'--cat-color':categoryThemeMap[service.group]?.color||'#3B82F6'} as React.CSSProperties}>
+        <span className="all-service-icon"><ServiceLogo slug={service.slug}/></span>
+        <h4>{service.name}</h4><p>{service.description}</p>
+        <span className="all-service-explore">Explore service <span className="explore-arrow" aria-hidden="true">↗</span></span>
+      </Link>)}
+    </div></div></section>;
+  }
   return (
-    <section className="all-services section" aria-labelledby="all-services-title">
+    <section className={'all-services section'+(directory?' services-catalogue':'')} aria-label={directory?'Service catalogue':undefined} aria-labelledby={directory?undefined:'all-services-title'}>
       <div className="wrap">
-        <header className="all-services-heading">
+        {!directory&&<header className="all-services-heading">
           <p className="eyebrow">WHAT WE DO</p>
           <h2 id="all-services-title">Everything your business needs<br/>to grow online.</h2>
           <p>{services.length} services across four connected disciplines. Find the right support for your next step.</p>
-        </header>
+        </header>}
 
-        {serviceCategories.map((category) => {
+        {serviceCategories.filter(category=>!categorySlug||category.slug===categorySlug).map((category) => {
           const theme = categoryThemeMap[category.title] || { color: '#3B82F6' };
           return (
             <section
@@ -51,4 +60,3 @@ export default function HomeServices(){
     </section>
   );
 }
-
