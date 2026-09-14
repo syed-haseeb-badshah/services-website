@@ -15,21 +15,36 @@
   padding: 72px 36px;
   text-align: center;
   background:
-    radial-gradient(circle at 82% 28%, rgba(139, 92, 246, 0.28) 0%, transparent 48%),
-    radial-gradient(circle at 18% 72%, rgba(59, 130, 246, 0.22) 0%, transparent 48%),
+    radial-gradient(
+      circle at 82% 28%,
+      rgba(139, 92, 246, 0.28) 0%,
+      transparent 48%
+    ),
+    radial-gradient(
+      circle at 18% 72%,
+      rgba(59, 130, 246, 0.22) 0%,
+      transparent 48%
+    ),
     linear-gradient(180deg, #151824 0%, #10121c 100%);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 40px rgba(139, 92, 246, 0.08);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(139, 92, 246, 0.08);
 }
 
 .pre-footer-cta::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
 }
 
 .pre-footer-badge {
@@ -90,7 +105,10 @@
   padding: 14px 30px;
   border-radius: 999px;
   text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 
@@ -112,7 +130,10 @@
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
   backdrop-filter: blur(8px);
 }
 
@@ -121,7 +142,6 @@
   border-color: rgba(255, 255, 255, 0.35);
   transform: translateY(-2px);
 }
-
 
 /* =========================================================
    CONTACT PAGE (2-COLUMN MATCHING REFERENCE)
@@ -201,7 +221,9 @@
   color: #f8fafc;
   font-size: 14.5px;
   font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   box-sizing: border-box;
 }
 
@@ -253,7 +275,10 @@
   justify-content: center;
   gap: 10px;
   margin-top: 26px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .btn-submit-message:hover {
@@ -277,7 +302,6 @@
   font-size: 14px;
 }
 
-
 /* Right Column: Info Cards */
 .contact-cards-stack {
   display: flex;
@@ -295,7 +319,11 @@
   padding: 20px 24px;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .contact-info-card:hover {
@@ -370,7 +398,11 @@
   padding: 20px 24px;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .whatsapp-highlight-card:hover {
@@ -425,7 +457,6 @@
   transform: translateX(4px);
 }
 
-
 /* =========================================================
    FLOATING WHATSAPP BUTTON
    ========================================================= */
@@ -443,7 +474,9 @@
   color: #ffffff;
   text-decoration: none;
   z-index: 9999;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .floating-whatsapp-btn:hover {
@@ -455,7 +488,6 @@
   width: 32px;
   height: 32px;
 }
-
 
 /* =========================================================
    RESPONSIVE STYLING

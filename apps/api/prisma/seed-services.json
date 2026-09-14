@@ -1,0 +1,366 @@
+[
+  {
+    "name": "Customized Website Development",
+    "slug": "web-design-and-development",
+    "group": "Web Design & Development",
+    "summary": "Turn a confusing website into a clear path from first visit to enquiry.",
+    "deliverables": [
+      "Discovery & sitemap",
+      "Responsive interface design",
+      "Accessible frontend",
+      "Launch checklist"
+    ],
+    "sortOrder": 0,
+    "isPublished": true
+  },
+  {
+    "name": "eCommerce Store Development",
+    "slug": "ecommerce",
+    "group": "Web Design & Development",
+    "summary": "Make browsing, choosing, and buying feel effortless for your customers.",
+    "deliverables": [
+      "Product architecture",
+      "Storefront design",
+      "Checkout planning",
+      "Catalogue handover"
+    ],
+    "sortOrder": 1,
+    "isPublished": true
+  },
+  {
+    "name": "WordPress Website Development",
+    "slug": "wordpress",
+    "group": "Web Design & Development",
+    "summary": "Give your team a website they can confidently update themselves.",
+    "deliverables": [
+      "Custom themes",
+      "Editor training",
+      "Plugin review",
+      "Content migration"
+    ],
+    "sortOrder": 2,
+    "isPublished": true
+  },
+  {
+    "name": "Shopify Website Development",
+    "slug": "shopify",
+    "group": "Web Design & Development",
+    "summary": "Build a distinctive store around your products and the way your customers shop.",
+    "deliverables": [
+      "Theme configuration",
+      "Collections",
+      "Payment provider planning",
+      "Store training"
+    ],
+    "sortOrder": 3,
+    "isPublished": true
+  },
+  {
+    "name": "Custom applications",
+    "slug": "custom-applications",
+    "group": "Technology",
+    "summary": "Replace scattered spreadsheets with a considered digital workflow.",
+    "deliverables": [
+      "Workflow mapping",
+      "Interactive prototype",
+      "API architecture",
+      "Role and access planning"
+    ],
+    "sortOrder": 4,
+    "isPublished": true
+  },
+  {
+    "name": "SEO & search visibility",
+    "slug": "seo-and-search-visibility",
+    "group": "Brand & Content",
+    "summary": "Help the right people discover the answers your business can offer.",
+    "deliverables": [
+      "Technical review",
+      "Local SEO & Google Business Profile",
+      "Content strategy",
+      "AEO & GEO planning"
+    ],
+    "sortOrder": 5,
+    "isPublished": true
+  },
+  {
+    "name": "Paid advertising",
+    "slug": "paid-advertising",
+    "group": "Brand & Content",
+    "summary": "Connect a specific offer with an audience that is ready to act.",
+    "deliverables": [
+      "Google Search & Shopping",
+      "Meta campaign planning",
+      "Landing pages",
+      "Conversion measurement"
+    ],
+    "sortOrder": 6,
+    "isPublished": true
+  },
+  {
+    "name": "Social media",
+    "slug": "social-media",
+    "group": "Brand & Content",
+    "summary": "Build a consistent presence that gives people a reason to follow along.",
+    "deliverables": [
+      "Editorial calendar",
+      "Community guidelines",
+      "Campaign creative",
+      "Influencer planning"
+    ],
+    "sortOrder": 7,
+    "isPublished": true
+  },
+  {
+    "name": "Branding & graphic design",
+    "slug": "branding-and-graphic-design",
+    "group": "Brand & Content",
+    "summary": "Bring your business into focus with a recognisable, usable visual identity.",
+    "deliverables": [
+      "Logo & identity",
+      "Corporate stationery",
+      "Packaging",
+      "Brand guidelines"
+    ],
+    "sortOrder": 8,
+    "isPublished": true
+  },
+  {
+    "name": "Content writing",
+    "slug": "content-writing",
+    "group": "Brand & Content",
+    "summary": "Explain your offer in language your customers actually use.",
+    "deliverables": [
+      "Website copy",
+      "Product descriptions",
+      "Articles",
+      "Editorial guidelines"
+    ],
+    "sortOrder": 9,
+    "isPublished": true
+  },
+  {
+    "name": "Photography & video",
+    "slug": "photography-and-video",
+    "group": "Videography & Photography",
+    "summary": "Show the details that make your products, spaces, and people worth noticing.",
+    "deliverables": [
+      "Shot planning",
+      "Product photography",
+      "Video & reels",
+      "Drone production planning"
+    ],
+    "sortOrder": 10,
+    "isPublished": true
+  },
+  {
+    "name": "Virtual tours",
+    "slug": "virtual-tours",
+    "group": "Videography & Photography",
+    "summary": "Let visitors understand a space before they step through the door.",
+    "deliverables": [
+      "Capture plan",
+      "360° tour production",
+      "Hotspot content",
+      "Website embedding"
+    ],
+    "sortOrder": 11,
+    "isPublished": true
+  },
+  {
+    "name": "Hosting & domains",
+    "slug": "hosting-and-domains",
+    "group": "Technology",
+    "summary": "Give your website and business email a well-considered home.",
+    "deliverables": [
+      "Domain planning",
+      "Hosting configuration",
+      "Business email",
+      "SSL setup"
+    ],
+    "sortOrder": 12,
+    "isPublished": true
+  },
+  {
+    "name": "Maintenance & support",
+    "slug": "maintenance-and-support",
+    "group": "Technology",
+    "summary": "Keep your website useful as your content and business evolve.",
+    "deliverables": [
+      "Update planning",
+      "Backups",
+      "Performance reviews",
+      "Support workflow"
+    ],
+    "sortOrder": 13,
+    "isPublished": true
+  },
+  {
+    "name": "Telecom & VOIP",
+    "slug": "telecom-and-voip",
+    "group": "Technology",
+    "summary": "Plan clearer communication between your team and your customers.",
+    "deliverables": [
+      "Call flow mapping",
+      "SIP & PBX planning",
+      "Queue configuration",
+      "Team documentation"
+    ],
+    "sortOrder": 14,
+    "isPublished": true
+  },
+  {
+    "name": "Infrastructure support",
+    "slug": "infrastructure-support",
+    "group": "Technology",
+    "summary": "Create an organised foundation for the tools your team depends on.",
+    "deliverables": [
+      "Network assessment",
+      "Cloud planning",
+      "Monitoring plan",
+      "Recovery documentation"
+    ],
+    "sortOrder": 15,
+    "isPublished": true
+  },
+  {
+    "name": "Platform development",
+    "slug": "platform-development",
+    "group": "Web Design & Development",
+    "summary": "Choose the right publishing platform for the people maintaining your website.",
+    "deliverables": [
+      "WooCommerce",
+      "Wix & Squarespace",
+      "Webflow",
+      "Migration planning"
+    ],
+    "sortOrder": 16,
+    "isPublished": true
+  },
+  {
+    "name": "Business systems",
+    "slug": "business-systems",
+    "group": "Technology",
+    "summary": "Shape purpose-built tools around a real operational problem.",
+    "deliverables": [
+      "CRM & ERP planning",
+      "LMS & marketplaces",
+      "Billing & project management",
+      "Recruitment & balloting workflows"
+    ],
+    "sortOrder": 17,
+    "isPublished": true
+  },
+  {
+    "name": "Extensions & integrations",
+    "slug": "extensions-and-integrations",
+    "group": "Technology",
+    "summary": "Connect existing tools without adding unnecessary work for your team.",
+    "deliverables": [
+      "WordPress plugins",
+      "Shopify apps",
+      "Custom themes",
+      "API integrations"
+    ],
+    "sortOrder": 18,
+    "isPublished": true
+  },
+  {
+    "name": "Digital growth partnership",
+    "slug": "digital-growth-partnership",
+    "group": "Brand & Content",
+    "summary": "Coordinate your website, content, and campaigns around one shared plan.",
+    "deliverables": [
+      "Quarterly priorities",
+      "Ecommerce brand building",
+      "Campaign coordination",
+      "Measurement reviews"
+    ],
+    "sortOrder": 19,
+    "isPublished": true
+  },
+  {
+    "name": "AI-assisted experiences",
+    "slug": "ai-assisted-experiences",
+    "group": "Technology",
+    "summary": "Explore useful automation with clear human oversight.",
+    "deliverables": [
+      "Use-case review",
+      "Search & assistance design",
+      "Prototype evaluation",
+      "Privacy requirements"
+    ],
+    "sortOrder": 20,
+    "isPublished": true
+  },
+  {
+    "name": "Laravel Custom Website Development",
+    "slug": "laravel-custom-website-development",
+    "group": "Web Design & Development",
+    "summary": "Give complex workflows a clear, scalable home, from booking platforms to business portals.",
+    "deliverables": [
+      "Workflow discovery",
+      "Laravel architecture",
+      "Portal interface",
+      "Integration planning"
+    ],
+    "sortOrder": 21,
+    "isPublished": true
+  },
+  {
+    "name": "Website Redesign & Development",
+    "slug": "website-redesign-and-development",
+    "group": "Web Design & Development",
+    "summary": "Keep what works and reimagine the parts that hold your website back.",
+    "deliverables": [
+      "Content audit",
+      "User journey redesign",
+      "Migration planning",
+      "Performance review"
+    ],
+    "sortOrder": 22,
+    "isPublished": true
+  },
+  {
+    "name": "Photography",
+    "slug": "photography",
+    "group": "Videography & Photography",
+    "summary": "Create a coherent image library around your products, people, and places.",
+    "deliverables": [
+      "Creative direction",
+      "Product photography",
+      "Brand & lifestyle photography",
+      "Image selection & retouching"
+    ],
+    "sortOrder": 23,
+    "isPublished": true
+  },
+  {
+    "name": "Videography",
+    "slug": "videography",
+    "group": "Videography & Photography",
+    "summary": "Bring your story to life with purposeful motion, sound, and a considered edit.",
+    "deliverables": [
+      "Brand films",
+      "Commercial & product videos",
+      "Social media edits",
+      "Event coverage"
+    ],
+    "sortOrder": 24,
+    "isPublished": true
+  },
+  {
+    "name": "Video Editing",
+    "slug": "video-editing",
+    "group": "Videography & Photography",
+    "summary": "Turn raw footage into a focused story, ready for the channels that matter.",
+    "deliverables": [
+      "Story assembly",
+      "Colour treatment",
+      "Sound editing",
+      "Captions & channel exports"
+    ],
+    "sortOrder": 25,
+    "isPublished": true
+  }
+]

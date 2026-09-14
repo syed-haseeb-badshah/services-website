@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+model Admin {
+  id String @id @default(cuid())
+  email String @unique
+  passwordHash String
+  role String @default("admin")
+  isActive Boolean @default(true)
+  lastLoginAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tokens RefreshToken[]
+}
+model RefreshToken {
+  id String @id @default(cuid())
+  adminId String
+  admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  tokenHash String @unique
+  family String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([family])
+}
+model LoginAttempt {
+  key String @id
+  failures Int @default(0)
+  lockedUntil DateTime?
+  updatedAt DateTime @updatedAt
+}
+model Service {
+  id String @id @default(cuid())
+  name String
+  slug String @unique
+  group String
+  summary String
+  deliverables String[]
+  isPublished Boolean @default(true)
+  sortOrder Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Package {
+  id String @id @default(cuid())
+  name String @unique
+  sortOrder Int @default(0)
+}
+model Lead {
+  id String @id @default(cuid())
+  name String
+  email String
+  phone String?
+  company String?
+  description String
+  intent String?
+  serviceName String?
+  packageName String?
+  status String @default("new")
+  source String?
+  notes String?
+  eventId String? @unique
+  deletedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  revenue RevenueEntry[]
+  @@index([deletedAt, status, createdAt])
+}
+model NewsletterSubscriber {
+  id String @id @default(cuid())
+  email String @unique
+  isConfirmed Boolean @default(false)
+  confirmedAt DateTime?
+  unsubscribedAt DateTime?
+  tokenHash String? @unique
+  tokenExpiresAt DateTime?
+  unsubscribeHash String? @unique
+  createdAt DateTime @default(now())
+}
+model RevenueEntry {
+  id String @id @default(cuid())
+  leadId String?
+  lead Lead? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  clientName String
+  serviceName String?
+  amount Decimal @db.Decimal(14, 2)
+  currency String @default("GBP")
+  status String @default("invoiced")
+  invoicedAt DateTime @default(now())
+  paidAt DateTime?
+  notes String?
+  @@index([currency, status, invoicedAt])
+}
+model SiteSetting {
+  key String @id
+  value String
+}
+model AuditLog {
+  id String @id @default(cuid())
+  adminId String
+  action String
+  entity String
+  entityId String?
+  metadata String?
+  createdAt DateTime @default(now())
+  @@index([createdAt])
+}
+model Outbox {
+  id String @id @default(cuid())
+  kind String
+  payload Json
+  attempts Int @default(0)
+  nextAttemptAt DateTime @default(now())
+  deliveredAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([deliveredAt, nextAttemptAt])
+}
+model TrackingEvent {
+  id String @id
+  name String
+  createdAt DateTime @default(now())
+}

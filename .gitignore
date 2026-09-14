@@ -6,3 +6,10 @@ dist/
 .recovery/
 .vscode/
 *.log
+
+!.env.example
+!**/.env.example
+.npm-cache/
+.local/
+apps/api/dist/
+coverage/

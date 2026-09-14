@@ -1,56 +1,67 @@
-# Aster Digital — local agency frontend
+# Aster Digital — local full-stack application
 
-Complete React + TypeScript + Vite prototype, saved in `C:\Users\HP\Desktop\Client-Agency-Website`. The Windows Desktop location was detected through `Environment.GetFolderPath('Desktop')` and matched the current folder.
+The existing React / TypeScript / Vite website now has an Express API, PostgreSQL database, admin dashboard, working form endpoints, manual revenue tracking and consent-gated analytics integrations. Existing public routes and visual styling are retained. All changes are local; nothing has been pushed or deployed.
 
-## Run locally
+## Start locally
 
-Requires Node.js 20.19+ or 22.12+ (built with Node 24).
+Use Node.js 24. In this folder, open a terminal:
 
 ```powershell
 npm ci
+npm run db:generate
+npm run db:local
+```
+
+Keep the database terminal running. In a second terminal:
+
+```powershell
+npm run db:migrate
+npm run db:seed
+npx tsx scripts/local-admin.ts
 npm run dev
 ```
 
-Open the Local URL printed by Vite, normally http://127.0.0.1:5173. Keep the terminal running. This is a web application: do not double-click `index.html`.
+Open [the website](http://localhost:5173) or [admin](http://localhost:5173/admin). Generated local login details are in `.local/admin-access.txt`. The password is random and unique to this installation. Do not copy this development account into production. Change it in Admin → Settings.
+
+The local database binds to `127.0.0.1:54329` and persists under `.local/postgres`. Its generated credentials stay in ignored `.local/database.json`. First startup creates `apps/api/.env` if missing. Vite proxies `/api` to the backend on port 4000. Do not open `index.html` directly. Restart the database and application commands to resume work; existing data is preserved.
+
+## Features and configuration
+
+- Contact submissions persist and appear in admin, with queued notification and acknowledgement emails.
+- Newsletter subscriptions persist as pending until confirmed by email. Confirmation links expire in 24 hours; unsubscribe is supported.
+- Public services and package names load from PostgreSQL. Service editing, publishing and ordering are available in admin and reflected when public pages load.
+- Admin supports lead filters/status/notes, services, revenue CRUD, currency-separated totals/monthly charts, subscribers, CSV exports, contact/pixel settings, password changes and audit history.
+- Server-side protection includes strict Zod validation, bcrypt passwords, httpOnly cookies, short-lived access tokens, rotating hashed refresh tokens, CSRF checks, rate limits and account lockout.
+- Optional Meta, GA4 and Google Ads tracking is consent-gated. A persistent worker relays Meta/GA4 events and retries failed email deliveries.
+
+Local defaults contain no real email, Turnstile, analytics or Sentry credentials. A clearly marked spam bypass is enabled only for local development and forbidden in production. No notification or newsletter confirmation email arrives until Resend is configured. Queued jobs remain pending. Live provider checks, hosting, domain/HTTPS and managed backup schedules require your external configuration.
+
+## Verify and build
 
 ```powershell
+npm run typecheck
+npm test
+npm run test:integration
+npm run format:check
+npm run seo:generate
 npm run build
-npm run preview
+npm run db:backup
+npm run db:restore-test
 ```
 
-The production website is in `dist`. Preview normally uses http://127.0.0.1:4173. TypeScript compilation is part of the production build.
+Integration tests use a separate `aster_test` database, or a `TEST_DATABASE_URL` ending in `_test`; they do not reset development data. Generate SEO files while the API runs, before building the frontend. Set `SITE_URL` to the final domain before release; current generated URLs use localhost. Backup commands use PostgreSQL client utilities from `PG_BIN`, or the locally downloaded `.local/pg-tools/pgsql/bin` directory on this machine. The minimal embedded server does not include backup utilities.
 
-## Editing
+The patched `deepmerge-ts` override fixes a Prisma tooling dependency advisory. Re-test generation/migrations when upgrading Prisma. `.env`, credentials, database files, backups, dependency caches and build output are git-ignored. `.env.example` files contain placeholders only.
 
-- `src/content.ts`: business identity, logo paths, primary palette, contact destinations, service catalogue, package names, concept projects, industries, FAQs, and full sample articles.
-- `src/main.tsx`: reusable layout, route templates, form, filters, page copy, and package comparison structure.
-- `src/style.css`: design tokens, responsive styles, typography, and interaction states. Core palette values are applied from `brand.colors`; secondary surface tones are CSS tokens/styles.
-- `public/logo.svg` and `public/wordmark.svg`: original placeholder monogram and wordmark. Replace these along with the configured business name.
-- `public/assets`: downloaded, locally served stock photography. See `docs/ASSETS.md`.
+## Source layout
 
-The main templates are shared by 21 service detail pages, 16 industry pages, three case studies, and three full sample articles. Supporting routes include pricing, contact, audit demo, FAQs, process, careers, client preview, sitemap, draft legal pages, and a 404 view.
+- `src/main.tsx`, `src/routes.tsx`, `src/Layout.tsx`: entry, routing and public layout.
+- `src/pages`, `src/components`: extracted pages, footer, forms, consent and shared UI.
+- `src/admin`: lazy-loaded admin dashboard.
+- `src/content.ts`: static editorial content and hydrated catalogue interface.
+- `src/style.css`, `src/theme.css`: base CSS and consolidated theme overrides in original order.
+- `apps/api/src`: API, authentication, validators, configuration and integration worker.
+- `apps/api/prisma`: schema, initial SQL migration and original service/package seeds.
+- `deploy`: deployment templates only; no live deployment.
 
-## Preview boundaries
-
-No backend, database, authentication, analytics, payment processing, or email delivery is included. Enquiry and newsletter forms only validate in-browser and show explicitly labeled preview feedback. Input is neither transmitted nor persisted. The audit is a fixed sample, not a live scan. The client area is a clearly labeled static demonstration with no real records or account actions.
-
-Blank contact destinations display honest unavailable states. Configure real destinations before enabling them. There are no competitor contact links in the website.
-
-## Static-host routing
-
-Nothing has been published. If hosting later, serve `dist` and rewrite unknown non-asset paths to `/index.html` so direct links and refreshes work with BrowserRouter. Keep actual asset 404 responses intact. The Vite dev/preview servers provide SPA fallback locally. A static host without a rewrite needs equivalent route handling. Do not publish unreviewed draft legal pages or provisional claims.
-
-## Before publication
-
-1. Replace placeholder business name, wordmark, monogram, region, contact details, social destinations, and metadata.
-2. Confirm the actual service offering, specialist capability, commercial packages, timelines, and support terms.
-3. Replace team placeholders and concept projects with approved biographies and real commissioned work where available.
-4. Add only verified testimonials, recognition, and results, with permission.
-5. Review privacy/terms against the actual business and eventual integrations.
-6. Commission production form delivery separately; this deliverable intentionally remains frontend-only.
-
-## Handoff
-
-`Client-Agency-Website.zip` contains source, assets, documentation, lockfile, and the production build. It excludes `node_modules`, generated TypeScript build metadata, and temporary files.
-
-See `docs/REFERENCE-AUDIT.md` for research scope and feature mapping, and `docs/VERIFICATION.md` for checks actually run and limitations.
+See [Admin guide](docs/ADMIN-GUIDE.md), [operations and release requirements](docs/OPERATIONS.md), and [asset attribution](docs/ASSETS.md). Privacy and terms remain drafts for business review. Online payments are not implemented; revenue is manual. The existing client-preview route remains illustrative.

@@ -1,0 +1,7 @@
+node_modules
+dist
+.local
+.npm-cache
+.recovery
+package-lock.json
+apps/api/dist

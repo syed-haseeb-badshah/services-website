@@ -1,11 +1,110 @@
-.pre-footer-cta-wrap{background:#fff;padding:36px 40px 64px}
-.pre-footer-cta-wrap .pre-footer-cta{width:min(1280px,100%);margin:0 auto;padding:78px 36px;text-align:center;border:1px solid #454c60;border-radius:28px;color:#fff;background:radial-gradient(ellipse at 10% 0%,#39445d66,transparent 55%),radial-gradient(ellipse at 100% 100%,#48517444,transparent 60%),linear-gradient(135deg,#20222c,#141923);box-shadow:0 18px 48px #20222c18}
-.pre-footer-cta .pre-footer-badge{display:inline-flex;align-items:center;gap:9px;padding:8px 17px;border:1px solid #586072;border-radius:30px;background:#ffffff0d;color:#d8deea;font-size:14px;margin-bottom:30px}
-.pre-footer-badge>svg{width:18px;height:18px;color:#b6c7e8}
-.pre-footer-cta-wrap .pre-footer-title{font:750 clamp(38px,4.5vw,65px)/1.08 'Segoe UI',Arial,sans-serif;letter-spacing:-.04em;color:#fff;margin:0 auto 24px;max-width:850px}
-.pre-footer-cta .pre-footer-subtitle{font-size:18px;line-height:1.7;color:#c7cedc;max-width:760px;margin:0 auto 36px}
-.pre-footer-cta .pre-footer-actions{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
-.pre-footer-cta .cta-btn-primary,.pre-footer-cta .cta-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:58px;padding:17px 27px;border:1px solid #fff;border-radius:13px;font-size:16px;font-weight:700;line-height:1.5}
-.pre-footer-cta .cta-btn-primary{background:#fff;color:#171c26}.pre-footer-cta .cta-btn-secondary{background:#ffffff0c;color:#fff;border-color:#687085}
-.pre-footer-cta .cta-btn-primary:hover{background:#e9edf4}.pre-footer-cta .cta-btn-secondary:hover{background:#ffffff1c}.pre-footer-cta a:focus-visible{outline:3px solid #b6c7e8;outline-offset:4px}
-@media(max-width:640px){.pre-footer-cta-wrap{padding:26px 20px 40px}.pre-footer-cta-wrap .pre-footer-cta{border-radius:20px;padding:44px 22px}.pre-footer-cta .pre-footer-subtitle{font-size:16px}.pre-footer-cta .pre-footer-actions{flex-direction:column}.pre-footer-cta .pre-footer-badge{font-size:12px;padding:8px 12px}}
+.pre-footer-cta-wrap {
+  background: #fff;
+  padding: 36px 40px 64px;
+}
+.pre-footer-cta-wrap .pre-footer-cta {
+  width: min(1280px, 100%);
+  margin: 0 auto;
+  padding: 78px 36px;
+  text-align: center;
+  border: 1px solid #454c60;
+  border-radius: 28px;
+  color: #fff;
+  background:
+    radial-gradient(ellipse at 10% 0%, #39445d66, transparent 55%),
+    radial-gradient(ellipse at 100% 100%, #48517444, transparent 60%),
+    linear-gradient(135deg, #20222c, #141923);
+  box-shadow: 0 18px 48px #20222c18;
+}
+.pre-footer-cta .pre-footer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 17px;
+  border: 1px solid #586072;
+  border-radius: 30px;
+  background: #ffffff0d;
+  color: #d8deea;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+.pre-footer-badge > svg {
+  width: 18px;
+  height: 18px;
+  color: #b6c7e8;
+}
+.pre-footer-cta-wrap .pre-footer-title {
+  font:
+    750 clamp(38px, 4.5vw, 65px)/1.08 "Segoe UI",
+    Arial,
+    sans-serif;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin: 0 auto 24px;
+  max-width: 850px;
+}
+.pre-footer-cta .pre-footer-subtitle {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #c7cedc;
+  max-width: 760px;
+  margin: 0 auto 36px;
+}
+.pre-footer-cta .pre-footer-actions {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.pre-footer-cta .cta-btn-primary,
+.pre-footer-cta .cta-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 58px;
+  padding: 17px 27px;
+  border: 1px solid #fff;
+  border-radius: 13px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.pre-footer-cta .cta-btn-primary {
+  background: #fff;
+  color: #171c26;
+}
+.pre-footer-cta .cta-btn-secondary {
+  background: #ffffff0c;
+  color: #fff;
+  border-color: #687085;
+}
+.pre-footer-cta .cta-btn-primary:hover {
+  background: #e9edf4;
+}
+.pre-footer-cta .cta-btn-secondary:hover {
+  background: #ffffff1c;
+}
+.pre-footer-cta a:focus-visible {
+  outline: 3px solid #b6c7e8;
+  outline-offset: 4px;
+}
+@media (max-width: 640px) {
+  .pre-footer-cta-wrap {
+    padding: 26px 20px 40px;
+  }
+  .pre-footer-cta-wrap .pre-footer-cta {
+    border-radius: 20px;
+    padding: 44px 22px;
+  }
+  .pre-footer-cta .pre-footer-subtitle {
+    font-size: 16px;
+  }
+  .pre-footer-cta .pre-footer-actions {
+    flex-direction: column;
+  }
+  .pre-footer-cta .pre-footer-badge {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}

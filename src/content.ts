@@ -1,65 +1,371 @@
-export const brand = { name: 'Aster Digital', logo: '/logo.svg', wordmark: '/wordmark.svg', tagline: 'Good things grow with intention.', region: 'United Kingdom & beyond', email: '', phone: '', whatsapp: '', booking: '', socials: [] as {name:string,url:string}[], colors: {ivory:'#f8f5ef', ink:'#252922', green:'#203c30', accent:'#af563b'}, description: 'Thoughtful websites, distinctive brands, and purposeful digital marketing for businesses ready for their next chapter.' };
-export const groups = ['All Services','Web Design & Development','Videography & Photography','Brand & Content','Technology'];
-const serviceRows = [
-['Web design & development','Web Design & Development','Turn a confusing website into a clear path from first visit to enquiry.','Discovery & sitemap|Responsive interface design|Accessible frontend|Launch checklist'],
-['Ecommerce','Web Design & Development','Make browsing, choosing, and buying feel effortless for your customers.','Product architecture|Storefront design|Checkout planning|Catalogue handover'],
-['WordPress','Web Design & Development','Give your team a website they can confidently update themselves.','Custom themes|Editor training|Plugin review|Content migration'],
-['Shopify','Web Design & Development','Build a distinctive store around your products and the way your customers shop.','Theme configuration|Collections|Payment provider planning|Store training'],
-['Custom applications','Technology','Replace scattered spreadsheets with a considered digital workflow.','Workflow mapping|Interactive prototype|API architecture|Role and access planning'],
-['SEO & search visibility','Brand & Content','Help the right people discover the answers your business can offer.','Technical review|Local SEO & Google Business Profile|Content strategy|AEO & GEO planning'],
-['Paid advertising','Brand & Content','Connect a specific offer with an audience that is ready to act.','Google Search & Shopping|Meta campaign planning|Landing pages|Conversion measurement'],
-['Social media','Brand & Content','Build a consistent presence that gives people a reason to follow along.','Editorial calendar|Community guidelines|Campaign creative|Influencer planning'],
-['Branding & graphic design','Brand & Content','Bring your business into focus with a recognisable, usable visual identity.','Logo & identity|Corporate stationery|Packaging|Brand guidelines'],
-['Content writing','Brand & Content','Explain your offer in language your customers actually use.','Website copy|Product descriptions|Articles|Editorial guidelines'],
-['Photography & video','Videography & Photography','Show the details that make your products, spaces, and people worth noticing.','Shot planning|Product photography|Video & reels|Drone production planning'],
-['Virtual tours','Videography & Photography','Let visitors understand a space before they step through the door.','Capture plan|360° tour production|Hotspot content|Website embedding'],
-['Hosting & domains','Technology','Give your website and business email a well-considered home.','Domain planning|Hosting configuration|Business email|SSL setup'],
-['Maintenance & support','Technology','Keep your website useful as your content and business evolve.','Update planning|Backups|Performance reviews|Support workflow'],
-['Telecom & VOIP','Technology','Plan clearer communication between your team and your customers.','Call flow mapping|SIP & PBX planning|Queue configuration|Team documentation'],
-['Infrastructure support','Technology','Create an organised foundation for the tools your team depends on.','Network assessment|Cloud planning|Monitoring plan|Recovery documentation'],
-['Platform development','Web Design & Development','Choose the right publishing platform for the people maintaining your website.','WooCommerce|Wix & Squarespace|Webflow|Migration planning'],
-['Business systems','Technology','Shape purpose-built tools around a real operational problem.','CRM & ERP planning|LMS & marketplaces|Billing & project management|Recruitment & balloting workflows'],
-['Extensions & integrations','Technology','Connect existing tools without adding unnecessary work for your team.','WordPress plugins|Shopify apps|Custom themes|API integrations'],
-['Digital growth partnership','Brand & Content','Coordinate your website, content, and campaigns around one shared plan.','Quarterly priorities|Ecommerce brand building|Campaign coordination|Measurement reviews'],
-['AI-assisted experiences','Technology','Explore useful automation with clear human oversight.','Use-case review|Search & assistance design|Prototype evaluation|Privacy requirements'],
+export const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+export const brand = {
+  name: "Aster Digital",
+  logo: "/logo.svg",
+  wordmark: "/wordmark.svg",
+  tagline: "Good things grow with intention.",
+  region: "United Kingdom & beyond",
+  email: "",
+  phone: "",
+  whatsapp: "",
+  booking: "",
+  socials: [] as { name: string; url: string }[],
+  colors: {
+    ivory: "#f8f5ef",
+    ink: "#252922",
+    green: "#203c30",
+    accent: "#af563b",
+  },
+  description:
+    "Thoughtful websites, distinctive brands, and purposeful digital marketing for businesses ready for their next chapter.",
+};
+export const groups = [
+  "All Services",
+  "Web Design & Development",
+  "Videography & Photography",
+  "Brand & Content",
+  "Technology",
 ];
-export const slugify=(s:string)=>s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-serviceRows.push(
-['Laravel Custom Website Development','Web Design & Development','Give complex workflows a clear, scalable home, from booking platforms to business portals.','Workflow discovery|Laravel architecture|Portal interface|Integration planning'],
-['Website Redesign & Development','Web Design & Development','Keep what works and reimagine the parts that hold your website back.','Content audit|User journey redesign|Migration planning|Performance review'],
-['Photography','Videography & Photography','Create a coherent image library around your products, people, and places.','Creative direction|Product photography|Brand & lifestyle photography|Image selection & retouching'],
-['Videography','Videography & Photography','Bring your story to life with purposeful motion, sound, and a considered edit.','Brand films|Commercial & product videos|Social media edits|Event coverage'],
-['Video Editing','Videography & Photography','Turn raw footage into a focused story, ready for the channels that matter.','Story assembly|Colour treatment|Sound editing|Captions & channel exports']
-);
-const serviceNames: Record<string,string> = {'web-design-and-development':'Customized Website Development',ecommerce:'eCommerce Store Development',wordpress:'WordPress Website Development',shopify:'Shopify Website Development'};
-export const services=serviceRows.map(([name,group,description,items])=>({name:serviceNames[slugify(name)]||name,group,description,slug:slugify(name),items:items.split('|')}));
-export const projects=[
-{slug:'forma-studio',name:'Forma Studio',category:'Web design',industry:'Architecture',image:'/assets/interior.jpg',line:'Spaces with a point of view.',brief:'An independent architecture studio needs an online portfolio that helps visitors understand its approach and begin a conversation.',approach:'An editorial project index balances large photographs with concise information about the space, materials, and design decisions.',deliverables:['Art direction','Responsive website concept','Project storytelling'],color:'#deded2'},
-{slug:'earth-and-form',name:'Earth & Form',category:'Ecommerce',industry:'Lifestyle & retail',image:'/assets/ceramics.jpg',line:'Objects for everyday rituals.',brief:'A small ceramics label needs a considered shopping experience that reflects the care in its objects.',approach:'A quiet catalogue places material, dimensions, and care information alongside every object. Clear collections simplify discovery.',deliverables:['Storefront concept','Product page design','Brand application'],color:'#e9dfd4'},
-{slug:'the-good-space',name:'The Good Space',category:'Branding',industry:'Creative businesses',image:'/assets/studio.jpg',line:'A little room to create.',brief:'A neighbourhood creative workspace needs a welcoming identity and an easy way to introduce its spaces.',approach:'Warm art direction and straightforward copy connect membership information, space details, and a simple enquiry path.',deliverables:['Identity concept','Content direction','Landing page concept'],color:'#e6dfcc'}];
-export const faqs=[['Where do you work?','This concept is designed for businesses in Pakistan and internationally. Availability, office location, and working hours will be confirmed with the client.'],['How much does a project cost?','Pricing depends on the scope, content, integrations, and support you need. Explore the package outlines, then request a tailored scope. No commercial prices have been set for this preview.'],['Can you improve an existing website?','Yes, the proposed service offering includes redesigns, content improvements, platform migrations, and ongoing maintenance. An initial review helps identify what is worth keeping.'],['What do you need from me to start?','A short description of your business, your audience, and the problem you want to solve is enough to begin planning. Brand assets and content can follow.'],['How long will it take?','A schedule is agreed after the scope and content requirements are understood. This prototype does not promise a fixed turnaround.'],['Does this form send an enquiry?','No. This is a local frontend preview. The form validates your details and shows a review summary; nothing is transmitted or saved.']];
-export const articles=[
-{slug:'before-your-website-redesign',title:'Before you redesign, ask better questions.',category:'Web design',read:'4 min read',intro:'A new look can help. A clearer purpose helps more.',sections:[['Start with one useful outcome','Decide what the next version of your website should help someone do. Book an introduction, find the right product, or understand a complex service. Write that action down before you start collecting visual references.'],['Find the friction','Walk through your current site on a phone. Note where information is missing, buttons are unclear, or a form asks too much. Talk to the people who answer customer questions: they already know what visitors struggle to find.'],['Make a content inventory','List the pages you need to keep, rewrite, combine, or remove. Confirm who owns the copy and photography. Content decisions made early make the design process more focused.'],['Create a useful brief','Include your audience, primary action, essential features, content owners, and practical constraints. Choose a small set of priorities you can review together. A good brief is a working agreement, not a collection of adjectives.']]},
-{slug:'choosing-your-store-platform',title:'A store platform should fit the way you work.',category:'Ecommerce',read:'3 min read',intro:'Start with your catalogue and operations, then compare the tools.',sections:[['Map your everyday work','Document how you add products, track stock, handle enquiries, and fulfil orders. Include the people who do these tasks. Your platform choice should make their work easier.'],['Check the whole buying journey','Review the payment providers, shipping methods, currencies, and languages your customers need. Confirm current provider availability before committing to an implementation.'],['Plan for ownership','Consider subscriptions, extension costs, maintenance, and training alongside the initial build. Ask for a handover plan and make sure the relevant accounts belong to the business.'],['Test a representative product','A product with variants, delivery restrictions, or custom options is a better test than your simplest item. Prototype its full journey before scaling the catalogue.']]},
-{slug:'a-useful-content-plan',title:'Less noise. A more useful content plan.',category:'Marketing',read:'3 min read',intro:'Build your next month of content around real customer questions.',sections:[['Listen before you schedule','Collect the questions people ask before buying. Group them by topic: choosing, using, caring for, and comparing. Each group can support useful articles, emails, and social posts.'],['Give every piece a job','Decide whether a piece should explain, demonstrate, or invite a next step. Avoid asking every post to sell. Useful information earns attention without forcing a pitch into every paragraph.'],['Work from one source','Write one substantial answer, then adapt it to different channels. Keep the facts consistent and change the format for the context in which people will read it.'],['Review and improve','Choose measures that relate to your purpose, such as relevant enquiries or visits to a helpful service page. Review patterns over time and document what you would change next month.']]}];
-export const industries=['Architecture & construction','Retail & ecommerce','Healthcare','Education','Food & hospitality','Real estate','Professional services','Startups & technology','Fashion & textiles','Beauty & cosmetics','Travel & tourism','Automotive','Logistics & BPO','Nonprofits','Home services','Women-led businesses'];
-export const packages=['Foundation','Momentum','Partnership'];
+export type PublicService = {
+  id?: string;
+  name: string;
+  slug: string;
+  group: string;
+  description: string;
+  items: string[];
+};
+export const services: PublicService[] = [];
+export const projects = [
+  {
+    slug: "forma-studio",
+    name: "Forma Studio",
+    category: "Web design",
+    industry: "Architecture",
+    image: "/assets/interior.jpg",
+    line: "Spaces with a point of view.",
+    brief:
+      "An independent architecture studio needs an online portfolio that helps visitors understand its approach and begin a conversation.",
+    approach:
+      "An editorial project index balances large photographs with concise information about the space, materials, and design decisions.",
+    deliverables: [
+      "Art direction",
+      "Responsive website concept",
+      "Project storytelling",
+    ],
+    color: "#deded2",
+  },
+  {
+    slug: "earth-and-form",
+    name: "Earth & Form",
+    category: "Ecommerce",
+    industry: "Lifestyle & retail",
+    image: "/assets/ceramics.jpg",
+    line: "Objects for everyday rituals.",
+    brief:
+      "A small ceramics label needs a considered shopping experience that reflects the care in its objects.",
+    approach:
+      "A quiet catalogue places material, dimensions, and care information alongside every object. Clear collections simplify discovery.",
+    deliverables: [
+      "Storefront concept",
+      "Product page design",
+      "Brand application",
+    ],
+    color: "#e9dfd4",
+  },
+  {
+    slug: "the-good-space",
+    name: "The Good Space",
+    category: "Branding",
+    industry: "Creative businesses",
+    image: "/assets/studio.jpg",
+    line: "A little room to create.",
+    brief:
+      "A neighbourhood creative workspace needs a welcoming identity and an easy way to introduce its spaces.",
+    approach:
+      "Warm art direction and straightforward copy connect membership information, space details, and a simple enquiry path.",
+    deliverables: [
+      "Identity concept",
+      "Content direction",
+      "Landing page concept",
+    ],
+    color: "#e6dfcc",
+  },
+];
+export const faqs = [
+  [
+    "Where do you work?",
+    "We work with UK businesses and can discuss international projects. Working hours, time zones, and any location-specific production requirements are agreed with the scope.",
+  ],
+  [
+    "How much does a project cost?",
+    "The fee depends on the scope, content, integrations, and support you need. Package outlines help frame the conversation; a tailored proposal sets out the price in GBP and any third-party costs.",
+  ],
+  [
+    "Can you improve an existing website?",
+    "Yes. We can review an existing site for redesign, content improvements, platform migration, or maintenance. The starting point is understanding what works and what needs to change.",
+  ],
+  [
+    "What do you need from me to start?",
+    "A short description of your business, audience, goals, and practical constraints is enough to begin planning. Existing brand assets, content, and example projects are useful when available.",
+  ],
+  [
+    "How long will it take?",
+    "A realistic schedule is agreed once the scope, content, integrations, and review responsibilities are understood. Milestones make it clear what happens next and what we need from you.",
+  ],
+  [
+    "Does this form send an enquiry?",
+    "Not yet. This frontend preview validates your details and shows a review summary. Nothing is transmitted, emailed, saved, or booked.",
+  ],
+  [
+    "Do you provide maintenance and post-launch support?",
+    "Yes. Website care, updates, training, and ongoing support can be scoped around your platform and team. We agree responsibilities and costs before the support period begins.",
+  ],
+  [
+    "Can you integrate APIs and existing systems?",
+    "We can scope connections between websites, applications, and business tools. We first review API access, data requirements, permissions, and any third-party limitations.",
+  ],
+  [
+    "What happens after I contact you?",
+    "The planned next step is to review your goals, clarify the brief, and discuss an appropriate scope before proposing the work. In this local preview, the form only lets you review your request; no message is sent.",
+  ],
+  [
+    "Can you work with an international team?",
+    "We can discuss remote collaboration and agree communication, time zones, and delivery requirements. Photography or production involving travel needs a separate location and logistics plan.",
+  ],
+];
+export const articles = [
+  {
+    slug: "before-your-website-redesign",
+    title: "Before you redesign, ask better questions.",
+    category: "Web design",
+    read: "4 min read",
+    intro: "A new look can help. A clearer purpose helps more.",
+    sections: [
+      [
+        "Start with one useful outcome",
+        "Decide what the next version of your website should help someone do. Book an introduction, find the right product, or understand a complex service. Write that action down before you start collecting visual references.",
+      ],
+      [
+        "Find the friction",
+        "Walk through your current site on a phone. Note where information is missing, buttons are unclear, or a form asks too much. Talk to the people who answer customer questions: they already know what visitors struggle to find.",
+      ],
+      [
+        "Make a content inventory",
+        "List the pages you need to keep, rewrite, combine, or remove. Confirm who owns the copy and photography. Content decisions made early make the design process more focused.",
+      ],
+      [
+        "Create a useful brief",
+        "Include your audience, primary action, essential features, content owners, and practical constraints. Choose a small set of priorities you can review together. A good brief is a working agreement, not a collection of adjectives.",
+      ],
+    ],
+  },
+  {
+    slug: "choosing-your-store-platform",
+    title: "A store platform should fit the way you work.",
+    category: "Ecommerce",
+    read: "3 min read",
+    intro: "Start with your catalogue and operations, then compare the tools.",
+    sections: [
+      [
+        "Map your everyday work",
+        "Document how you add products, track stock, handle enquiries, and fulfil orders. Include the people who do these tasks. Your platform choice should make their work easier.",
+      ],
+      [
+        "Check the whole buying journey",
+        "Review the payment providers, shipping methods, currencies, and languages your customers need. Confirm current provider availability before committing to an implementation.",
+      ],
+      [
+        "Plan for ownership",
+        "Consider subscriptions, extension costs, maintenance, and training alongside the initial build. Ask for a handover plan and make sure the relevant accounts belong to the business.",
+      ],
+      [
+        "Test a representative product",
+        "A product with variants, delivery restrictions, or custom options is a better test than your simplest item. Prototype its full journey before scaling the catalogue.",
+      ],
+    ],
+  },
+  {
+    slug: "a-useful-content-plan",
+    title: "Less noise. A more useful content plan.",
+    category: "Marketing",
+    read: "3 min read",
+    intro: "Build your next month of content around real customer questions.",
+    sections: [
+      [
+        "Listen before you schedule",
+        "Collect the questions people ask before buying. Group them by topic: choosing, using, caring for, and comparing. Each group can support useful articles, emails, and social posts.",
+      ],
+      [
+        "Give every piece a job",
+        "Decide whether a piece should explain, demonstrate, or invite a next step. Avoid asking every post to sell. Useful information earns attention without forcing a pitch into every paragraph.",
+      ],
+      [
+        "Work from one source",
+        "Write one substantial answer, then adapt it to different channels. Keep the facts consistent and change the format for the context in which people will read it.",
+      ],
+      [
+        "Review and improve",
+        "Choose measures that relate to your purpose, such as relevant enquiries or visits to a helpful service page. Review patterns over time and document what you would change next month.",
+      ],
+    ],
+  },
+];
+export const industries = [
+  "Architecture & construction",
+  "Retail & ecommerce",
+  "Healthcare",
+  "Education",
+  "Food & hospitality",
+  "Real estate",
+  "Professional services",
+  "Startups & technology",
+  "Fashion & textiles",
+  "Beauty & cosmetics",
+  "Travel & tourism",
+  "Automotive",
+  "Logistics & BPO",
+  "Nonprofits",
+  "Home services",
+  "Women-led businesses",
+];
+export const packages: string[] = [];
 
+export const processSteps = [
+  {
+    title: "Tell us your idea",
+    description:
+      "Share your goals, audience, and the problem you want to solve. We review what you already have and where you need support.",
+  },
+  {
+    title: "Plan the solution",
+    description:
+      "Agree the scope, responsibilities, budget, and review points before the work begins.",
+  },
+  {
+    title: "Build & develop",
+    description:
+      "Design, development, content, or production takes shape through agreed milestones and your feedback.",
+  },
+  {
+    title: "Launch & support",
+    description:
+      "Check the deliverables, prepare the handover, and agree any training, maintenance, or follow-up support.",
+  },
+];
+export const audiences = [
+  {
+    title: "Startups",
+    description:
+      "Shape a clear first offer and a digital presence that gives your idea room to develop.",
+  },
+  {
+    title: "Small businesses",
+    description:
+      "Make your services easier to understand and give customers a straightforward way to enquire.",
+  },
+  {
+    title: "Growing companies",
+    description:
+      "Connect your website, content, and systems as your team and customer needs evolve.",
+  },
+  {
+    title: "Complex organisations",
+    description:
+      "Plan workflows, integrations, and ownership around the people who will use and maintain them.",
+  },
+];
+export const projectContext: Record<
+  string,
+  { outcome: string; technology: string; service: string }
+> = {
+  "forma-studio": {
+    outcome:
+      "A portfolio direction designed to help visitors understand the studio’s specialism, explore relevant spaces, and begin a project conversation.",
+    technology:
+      "Design concept; the CMS, frontend and hosting would be agreed for a commissioned build.",
+    service: "Customized Website Development",
+  },
+  "earth-and-form": {
+    outcome:
+      "A storefront direction that makes products easier to compare through useful material, size, and care information, with a clearer route towards purchase.",
+    technology:
+      "Storefront concept; the commerce platform, payments and fulfilment integrations are not yet selected.",
+    service: "eCommerce Store Development",
+  },
+  "the-good-space": {
+    outcome:
+      "A coherent identity and landing-page direction that helps potential members understand the spaces, atmosphere, and enquiry process.",
+    technology:
+      "Identity and landing-page concept; publishing tools and booking integrations would be scoped separately.",
+    service: "Branding & graphic design",
+  },
+};
 
-export const serviceCategories = groups.slice(1).map((title,index)=>({title,slug:slugify(title),description:[
- 'Distinctive websites and thoughtful shopping experiences, built around the people who use them.',
- 'Still images and moving stories that reveal the character of your brand.',
- 'A recognisable identity, a clear voice, and content with something to say.',
- 'Connected systems and considered support for the way your business works.'
-][index],services:services.filter(s=>s.group===title)}));
-export type ShowcaseProject = {id:string;title:string;description:string;label:string;mediaType:'image'|'video';media:string;alt:string;poster?:string;link?:string};
+export const serviceCategories = groups.slice(1).map((title, index) => ({
+  title,
+  slug: slugify(title),
+  description: [
+    "Distinctive websites and thoughtful shopping experiences, built around the people who use them.",
+    "Still images and moving stories that reveal the character of your brand.",
+    "A recognisable identity, a clear voice, and content with something to say.",
+    "Connected systems and considered support for the way your business works.",
+  ][index],
+  services: services.filter((s) => s.group === title),
+}));
+export type ShowcaseProject = {
+  id: string;
+  title: string;
+  description: string;
+  label: string;
+  mediaType: "image" | "video";
+  media: string;
+  alt: string;
+  poster?: string;
+  link?: string;
+};
 // Replace concept media/copy here. Optional per-service overrides use the same three-slot structure.
 export const serviceProjectOverrides: Record<string, ShowcaseProject[]> = {};
-export function projectsForService(service:typeof services[number]):ShowcaseProject[]{
- return serviceProjectOverrides[service.slug] ?? projects.map((p,i)=>({id:p.slug,title:p.name,label:'Concept direction',mediaType:'image',media:p.image,alt:p.name+' illustrative art direction',link:'/work/'+p.slug,description:[
-  service.group==='Videography & Photography'?'A visual study of spaces, texture, and natural light.':p.approach,
-  service.group==='Videography & Photography'?'Product storytelling through material, form, and everyday rituals.':p.brief,
-  service.group==='Videography & Photography'?'A warm creative direction for people and shared spaces.':p.approach
- ][i]}));
+export function projectsForService(
+  service: (typeof services)[number],
+): ShowcaseProject[] {
+  return (
+    serviceProjectOverrides[service.slug] ??
+    projects.map((p, i) => ({
+      id: p.slug,
+      title: p.name,
+      label: "Concept direction",
+      mediaType: "image",
+      media: p.image,
+      alt: p.name + " illustrative art direction",
+      link: "/work/" + p.slug,
+      description: [
+        service.group === "Videography & Photography"
+          ? "A visual study of spaces, texture, and natural light."
+          : p.approach,
+        service.group === "Videography & Photography"
+          ? "Product storytelling through material, form, and everyday rituals."
+          : p.brief,
+        service.group === "Videography & Photography"
+          ? "A warm creative direction for people and shared spaces."
+          : p.approach,
+      ][i],
+    }))
+  );
 }
 
+export function hydrateContent(
+  rows: PublicService[],
+  settings: Record<string, unknown>,
+) {
+  services.splice(0, services.length, ...rows);
+  for (const category of serviceCategories)
+    category.services = services.filter((s) => s.group === category.title);
+  brand.email = String(settings["contact.email"] || "");
+  brand.phone = String(settings["contact.phone"] || "");
+  brand.whatsapp = String(settings["contact.whatsapp"] || "");
+}

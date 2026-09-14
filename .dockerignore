@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+.local
+.npm-cache
+.recovery
+**/.env
+**/.env.*
+**/*.zip
+apps/api/dist
