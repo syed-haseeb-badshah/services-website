@@ -126,6 +126,8 @@ export const tracking = z
     eventId: z.string().uuid(),
     eventName: z.enum(["PageView", "Lead", "Contact", "Subscribe"]),
     consent: z.literal(true),
+    analytics: z.boolean().default(false),
+    marketing: z.boolean().default(false),
     clientId: z
       .string()
       .regex(/^\d+\.\d+$/)
@@ -133,6 +135,10 @@ export const tracking = z
     path: z
       .string()
       .regex(/^\/[a-zA-Z0-9/_-]*$/)
-      .max(250),
+      .max(250)
+      .refine(
+        (path) => !/^\/(admin|newsletter)(\/|$)/.test(path),
+        "Private routes cannot be tracked",
+      ),
   })
   .strict();

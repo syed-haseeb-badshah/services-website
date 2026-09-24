@@ -28,7 +28,7 @@ export default function ServiceEnquiry({ service }: { service: Service }) {
               className="detail-button detail-whatsapp"
               href={"https://wa.me/" + brand.whatsapp.replace(/\D/g, "")}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Chat on WhatsApp <span aria-hidden="true">↗</span>
             </a>

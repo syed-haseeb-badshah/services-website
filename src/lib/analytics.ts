@@ -1,4 +1,40 @@
 import { api, type Settings } from "./api";
+export type Preferences = { analytics: boolean; marketing: boolean };
+const key = "aster-consent-v2";
+const lifetime = 180 * 86400000;
+let settings: Settings = {};
+let initialized = false;
+let memory: (Preferences & { at: number; configuration: string }) | undefined;
+let lastPage = "";
+let lastPageAt = 0;
+const pendingKey = "aster-pending-events";
+const activeRequests = new Set<Promise<unknown>>();
+function pendingEvents(): string[] {
+  try {
+    const values = JSON.parse(sessionStorage.getItem(pendingKey) || "[]");
+    return Array.isArray(values)
+      ? values
+          .filter(
+            (v): v is string =>
+              typeof v === "string" && /^[a-f0-9-]{36}$/.test(v),
+          )
+          .slice(-100)
+      : [];
+  } catch {
+    return [];
+  }
+}
+async function revokePending() {
+  await Promise.allSettled([...activeRequests]);
+  const eventIds = pendingEvents();
+  if (!eventIds.length) return;
+  await api("/track/revoke", { method: "POST", body: { eventIds } });
+  try {
+    sessionStorage.removeItem(pendingKey);
+  } catch {
+    /* Storage may be blocked. */
+  }
+}
 declare global {
   interface Window {
     dataLayer: unknown[];
@@ -12,32 +48,60 @@ declare global {
     };
   }
 }
-let lastPage = "";
-let lastPageAt = 0;
-let settings: Settings = {},
-  initialized = false;
-export function consentGranted() {
+export function providers() {
+  return {
+    ga: String(
+      settings["pixels.ga4_measurement_id"] ||
+        import.meta.env.VITE_GA4_MEASUREMENT_ID ||
+        "",
+    ),
+    ads: String(settings["pixels.google_ads_conversion_id"] || ""),
+    meta: String(
+      settings["pixels.meta_pixel_id"] ||
+        import.meta.env.VITE_META_PIXEL_ID ||
+        "",
+    ),
+    diagnostics: Boolean(import.meta.env.VITE_SENTRY_DSN),
+  };
+}
+export function optionalCategories() {
+  const p = providers();
+  return {
+    analytics: Boolean(p.ga || p.diagnostics),
+    marketing: Boolean(p.ads || p.meta),
+  };
+}
+function configuration() {
+  return JSON.stringify(providers());
+}
+export function preferences(): Preferences & { chosen: boolean } {
   try {
-    const value = JSON.parse(
-      localStorage.getItem("aster-consent-v1") || "null",
-    );
-    return value?.accepted === true && Date.now() - value.at < 180 * 86400000;
+    const value = memory || JSON.parse(localStorage.getItem(key) || "null");
+    if (
+      value &&
+      typeof value.analytics === "boolean" &&
+      typeof value.marketing === "boolean" &&
+      Number.isFinite(value.at) &&
+      value.at <= Date.now() &&
+      Date.now() - value.at < lifetime &&
+      value.configuration === configuration()
+    )
+      return {
+        analytics: value.analytics,
+        marketing: value.marketing,
+        chosen: true,
+      };
   } catch {
-    return false;
+    /* Storage unavailable: default to no optional processing. */
   }
+  return { analytics: false, marketing: false, chosen: false };
+}
+export function consentGranted() {
+  const p = preferences();
+  return p.analytics || p.marketing;
 }
 export function consentChosen() {
-  try {
-    const value = JSON.parse(
-      localStorage.getItem("aster-consent-v1") || "null",
-    );
-    return (
-      typeof value?.accepted === "boolean" &&
-      Date.now() - value.at < 180 * 86400000
-    );
-  } catch {
-    return false;
-  }
+  return preferences().chosen;
 }
 export function configureAnalytics(value: Settings) {
   settings = value;
@@ -49,40 +113,45 @@ function script(src: string) {
   document.head.appendChild(element);
 }
 function initialize() {
-  if (initialized || !consentGranted()) return;
+  if (
+    initialized ||
+    !consentGranted() ||
+    /^\/(admin|newsletter)(\/|$)/.test(location.pathname)
+  )
+    return;
   initialized = true;
-  const ga = String(
-    settings["pixels.ga4_measurement_id"] ||
-      import.meta.env.VITE_GA4_MEASUREMENT_ID ||
-      "",
-  );
-  const ads = String(settings["pixels.google_ads_conversion_id"] || "");
+  const consent = preferences();
+  const p = providers();
+  const ga = consent.analytics ? p.ga : "";
+  const ads = consent.marketing ? p.ads : "";
   if (ga || ads) {
     window.dataLayer ||= [];
     window.gtag = function () {
       window.dataLayer.push(arguments);
     };
     window.gtag("consent", "default", {
-      analytics_storage: "granted",
-      ad_storage: "granted",
-      ad_user_data: "granted",
-      ad_personalization: "granted",
+      analytics_storage: consent.analytics ? "granted" : "denied",
+      ad_storage: consent.marketing ? "granted" : "denied",
+      ad_user_data: consent.marketing ? "granted" : "denied",
+      ad_personalization: consent.marketing ? "granted" : "denied",
     });
     window.gtag("js", new Date());
-    if (ga) window.gtag("config", ga, { send_page_view: false });
-    if (ads) window.gtag("config", ads, { send_page_view: false });
+    const options = {
+      send_page_view: false,
+      page_location: location.origin + location.pathname,
+      page_referrer: "",
+      allow_google_signals: false,
+      allow_ad_personalization_signals: consent.marketing,
+    };
+    if (ga) window.gtag("config", ga, options);
+    if (ads) window.gtag("config", ads, options);
     script(
       "https://www.googletagmanager.com/gtag/js?id=" +
         encodeURIComponent(ga || ads),
     );
   }
-  const meta = String(
-    settings["pixels.meta_pixel_id"] ||
-      import.meta.env.VITE_META_PIXEL_ID ||
-      "",
-  );
-  if (meta) {
-    const fbq: NonNullable<Window["fbq"]> = function (...args: unknown[]) {
+  if (p.meta && consent.marketing) {
+    const fbq: NonNullable<Window["fbq"]> = (...args) => {
       if (fbq.callMethod) fbq.callMethod(...args);
       else fbq.queue!.push(args);
     };
@@ -91,21 +160,68 @@ function initialize() {
     fbq.loaded = true;
     fbq.version = "2.0";
     window.fbq = fbq;
-    fbq("init", meta);
+    fbq("set", "autoConfig", false, p.meta);
+    fbq("init", p.meta);
     script("https://connect.facebook.net/en_US/fbevents.js");
   }
+  if (p.diagnostics && consent.analytics)
+    void import("@sentry/react").then((Sentry) => {
+      if (!preferences().analytics) return;
+      Sentry.init({
+        dsn: import.meta.env.VITE_SENTRY_DSN,
+        sendDefaultPii: false,
+        beforeSend(event) {
+          if (!preferences().analytics) return null;
+          return {
+            type: event.type,
+            event_id: event.event_id,
+            timestamp: event.timestamp,
+            level: "error",
+            message: "Website error",
+            platform: "javascript",
+          };
+        },
+      });
+    });
 }
-export function chooseConsent(accepted: boolean) {
+function clearOptionalStorage() {
   try {
-    localStorage.setItem(
-      "aster-consent-v1",
-      JSON.stringify({ accepted, at: Date.now() }),
-    );
-  } catch {
-    return;
-  }
-  if (!accepted) {
     localStorage.removeItem("aster-client-id");
+    localStorage.removeItem("aster-consent-v1");
+  } catch {
+    /* blocked storage */
+  }
+  const parts = location.hostname.split(".");
+  const domains = ["", ...parts.map((_, i) => "." + parts.slice(i).join("."))];
+  for (const cookie of document.cookie.split(";")) {
+    const name = cookie.split("=")[0].trim();
+    if (/^(_ga|_gid|_fbp|_fbc|_gcl)/.test(name))
+      for (const domain of domains)
+        document.cookie = `${name}=;Max-Age=0;path=/${domain ? ";domain=" + domain : ""}`;
+  }
+}
+export function chooseConsent(value: Preferences | boolean) {
+  const p =
+    typeof value === "boolean" ? { analytics: value, marketing: value } : value;
+  const available = optionalCategories();
+  memory = {
+    analytics: p.analytics && available.analytics,
+    marketing: p.marketing && available.marketing,
+    at: Date.now(),
+    configuration: configuration(),
+  };
+  try {
+    localStorage.setItem(key, JSON.stringify(memory));
+  } catch {
+    // A full quota must not resurrect an older grant after withdrawal and reload.
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      /* Storage unavailable. */
+    }
+  }
+  clearOptionalStorage();
+  if (initialized) {
     window.fbq?.("consent", "revoke");
     window.gtag?.("consent", "update", {
       analytics_storage: "denied",
@@ -113,78 +229,105 @@ export function chooseConsent(accepted: boolean) {
       ad_user_data: "denied",
       ad_personalization: "denied",
     });
-    const domains = [
-      "",
-      location.hostname,
-      "." + location.hostname,
-      "." + location.hostname.split(".").slice(-2).join("."),
-    ];
-    for (const cookie of document.cookie.split(";")) {
-      const name = cookie.split("=")[0].trim();
-      if (/^(_ga|_gid|_fbp|_fbc|_gcl)/.test(name))
-        for (const domain of domains)
-          document.cookie = `${name}=;Max-Age=0;path=/${domain ? ";domain=" + domain : ""}`;
-    }
-    if (initialized) location.reload();
+    // Cancel queued relays before unloading. An offline failure is retried on the next denied visit.
+    if (pendingEvents().length) {
+      void Promise.race([
+        revokePending(),
+        new Promise((resolve) => setTimeout(resolve, 3000)),
+      ])
+        .catch(() => {})
+        .finally(() => location.reload());
+    } else location.reload();
   } else {
     initialize();
     void track("PageView");
+  }
+}
+export function synchronizeConsent() {
+  if (!consentGranted() && pendingEvents().length)
+    void revokePending().catch(() => {});
+  if (!consentChosen()) {
+    clearOptionalStorage();
+    if (initialized) location.reload();
   }
 }
 export async function track(
   eventName: "PageView" | "Lead" | "Contact" | "Subscribe",
   eventId = crypto.randomUUID(),
 ) {
-  if (!consentGranted() || location.pathname.startsWith("/admin")) return;
+  if (/^\/(admin|newsletter)(\/|$)/.test(location.pathname)) return;
+  synchronizeConsent();
+  if (!consentGranted()) return;
   initialize();
+  const consent = preferences();
+  const p = providers();
   const path = location.pathname.replace(/[^a-zA-Z0-9/_-]/g, "");
   if (eventName === "PageView") {
     if (lastPage === path && Date.now() - lastPageAt < 1000) return;
     lastPage = path;
     lastPageAt = Date.now();
   }
-  window.fbq?.("track", eventName, {}, { eventID: eventId });
+  if (consent.marketing)
+    window.fbq?.("track", eventName, {}, { eventID: eventId });
   const names = {
     PageView: "page_view",
     Lead: "generate_lead",
     Contact: "contact",
     Subscribe: "sign_up",
   };
-  // GA4 does not guarantee deduplication by event_id. Send through exactly one transport.
-  if (!settings.ga4ServerRelay)
+  if (consent.analytics && p.ga && !settings.ga4ServerRelay)
     window.gtag?.("event", names[eventName], {
+      send_to: p.ga,
       event_id: eventId,
       page_location: location.origin + path,
+      page_referrer: "",
     });
   if (
+    consent.marketing &&
     eventName === "Lead" &&
-    settings["pixels.google_ads_conversion_id"] &&
+    p.ads &&
     settings["pixels.google_ads_conversion_label"]
   )
     window.gtag?.("event", "conversion", {
-      send_to: `${settings["pixels.google_ads_conversion_id"]}/${settings["pixels.google_ads_conversion_label"]}`,
+      send_to: `${p.ads}/${settings["pixels.google_ads_conversion_label"]}`,
       transaction_id: eventId,
     });
-  const gaCookie = document.cookie.match(
-    /(?:^|; )_ga=GA\d+\.\d+\.(\d+\.\d+)/,
-  )?.[1];
-  let clientId = gaCookie;
-  if (!clientId) {
-    try {
-      clientId =
-        localStorage.getItem("aster-client-id") ||
-        `${Math.floor(Math.random() * 1e10)}.${Math.floor(Date.now() / 1000)}`;
-      localStorage.setItem("aster-client-id", clientId);
-    } catch {
-      clientId = `1.${Math.floor(Date.now() / 1000)}`;
-    }
-  }
+  if (
+    !(consent.analytics && p.ga && settings.ga4ServerRelay) &&
+    !(consent.marketing && p.meta && settings.metaServerRelay)
+  )
+    return;
+  // Per-event identifier: no indefinitely retained browser identifier.
+  const clientId = `${Math.floor(Math.random() * 1e10)}.${Math.floor(Date.now() / 1000)}`;
   try {
-    await api("/track/event", {
+    // If browser storage is unavailable, do not create a deferred server event that cannot be recalled.
+    try {
+      sessionStorage.setItem(
+        pendingKey,
+        JSON.stringify([...pendingEvents(), eventId].slice(-100)),
+      );
+    } catch {
+      return;
+    }
+    const request = api("/track/event", {
       method: "POST",
-      body: { eventId, eventName, consent: true, clientId, path },
+      body: {
+        eventId,
+        eventName,
+        consent: true,
+        analytics: consent.analytics,
+        marketing: consent.marketing,
+        clientId,
+        path,
+      },
     });
+    activeRequests.add(request);
+    try {
+      await request;
+    } finally {
+      activeRequests.delete(request);
+    }
   } catch {
-    /* Analytics failure must not interrupt the enquiry journey. */
+    /* Measurement must not interrupt an enquiry. */
   }
 }

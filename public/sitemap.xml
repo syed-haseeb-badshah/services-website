@@ -11,8 +11,11 @@
 <url><loc>http://localhost:5173/audit</loc></url>
 <url><loc>http://localhost:5173/faq</loc></url>
 <url><loc>http://localhost:5173/process</loc></url>
-<url><loc>http://localhost:5173/privacy</loc></url>
-<url><loc>http://localhost:5173/terms</loc></url>
+<url><loc>http://localhost:5173/privacy-policy</loc></url>
+<url><loc>http://localhost:5173/terms-and-conditions</loc></url>
+<url><loc>http://localhost:5173/cookie-policy</loc></url>
+<url><loc>http://localhost:5173/refund-policy</loc></url>
+<url><loc>http://localhost:5173/accessibility</loc></url>
 <url><loc>http://localhost:5173/careers</loc></url>
 <url><loc>http://localhost:5173/client-preview</loc></url>
 <url><loc>http://localhost:5173/sitemap</loc></url>

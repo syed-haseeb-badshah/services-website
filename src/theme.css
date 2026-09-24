@@ -389,7 +389,7 @@ h2 {
 .footer-bottom {
   font-size: 12px;
 }
-.footer h3 {
+.footer h2 {
   font-size: 13px;
 }
 .directory p,
@@ -821,7 +821,7 @@ textarea {
 .mini-site {
   color: #252922;
 }
-.mini-site h3 {
+.mini-site .mini-title {
   font-family: "Segoe UI", Arial, sans-serif;
 }
 .project-open {
@@ -995,7 +995,7 @@ textarea {
 }
 .stats-strip {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   margin: 0;
   border: 1px solid #ececf0;
   border-top: 3px solid #555b68;

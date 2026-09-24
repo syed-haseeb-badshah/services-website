@@ -7,9 +7,14 @@ Sentry.init({
   dsn: process.env.SENTRY_DSN,
   sendDefaultPii: false,
   beforeSend(event) {
-    delete event.request;
-    delete event.user;
-    return event;
+    return {
+      type: event.type,
+      event_id: event.event_id,
+      timestamp: event.timestamp,
+      level: "error",
+      message: "API operation failed",
+      platform: "node",
+    };
   },
 });
 await db.$connect();

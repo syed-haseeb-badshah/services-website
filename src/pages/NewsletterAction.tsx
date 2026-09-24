@@ -10,7 +10,7 @@ export default function NewsletterAction() {
   if (!["confirm", "unsubscribe"].includes(action || ""))
     return <p>Invalid newsletter action.</p>;
   return (
-    <main className="wrap">
+    <section className="wrap">
       <h1>
         {action === "confirm" ? "Confirm your subscription" : "Unsubscribe"}
       </h1>
@@ -37,6 +37,6 @@ export default function NewsletterAction() {
         {action === "confirm" ? "Confirm subscription" : "Unsubscribe"}
       </button>
       <p role="status">{message}</p>
-    </main>
+    </section>
   );
 }

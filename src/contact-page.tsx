@@ -16,8 +16,8 @@ const contactDetails = {
   get whatsapp() {
     return brand.whatsapp || "Not configured";
   },
-  location: "United Kingdom",
-  hours: "Mon–Fri, 09:00–18:00",
+  location: "Serving UK businesses",
+  hours: "By arrangement",
   timezone: "UK time · GMT / BST",
 };
 function ContactIcon({ kind }: { kind: string }) {
@@ -162,6 +162,9 @@ export default function ContactPage() {
               </p>
             </div>
           )}
+          <p>
+            Fields marked * are required. Other project details are optional.
+          </p>
           <form noValidate onSubmit={submit}>
             <input
               type="hidden"
@@ -178,8 +181,14 @@ export default function ContactPage() {
               {[
                 ["name", "Full name", "text", "Alex Taylor", "name"],
                 ["email", "Email", "email", "alex@example.com", "email"],
-                ["phone", "Phone", "tel", "+44 7700 900123", "tel"],
-                ["company", "Company", "text", "Your company", "organization"],
+                ["phone", "Phone (optional)", "tel", "+44 7700 900123", "tel"],
+                [
+                  "company",
+                  "Company (optional)",
+                  "text",
+                  "Your company",
+                  "organization",
+                ],
               ].map(([id, label, type, placeholder, auto]) => (
                 <label key={id} htmlFor={"uk-" + id}>
                   {label}
@@ -189,6 +198,7 @@ export default function ContactPage() {
                   <input
                     id={"uk-" + id}
                     name={id}
+                    maxLength={id === "email" ? 254 : 200}
                     type={type}
                     placeholder={placeholder}
                     autoComplete={auto}
@@ -263,6 +273,7 @@ export default function ContactPage() {
                 id="uk-description"
                 name="description"
                 rows={5}
+                maxLength={9000}
                 placeholder="Tell us about your project…"
                 required
                 aria-invalid={!!errors.description}
@@ -277,9 +288,10 @@ export default function ContactPage() {
               )}
             </label>
             <p className="uk-form-note">
-              Your enquiry will be saved securely so we can respond. Budgets are
-              in pounds sterling (GBP).{" "}
-              <Link to="/privacy">Privacy information</Link>.
+              We use your information to respond to your enquiry, not to
+              subscribe you to marketing. Please do not include sensitive
+              information. Budgets are in pounds sterling (GBP).{" "}
+              <Link to="/privacy-policy">Privacy Policy</Link>.
             </p>
             <SpamCheck key={attempt} action="contact" onToken={setToken} />
             {serverError && <p role="alert">{serverError}</p>}
@@ -353,7 +365,7 @@ export default function ContactPage() {
             ],
             [
               "hours",
-              "Working hours",
+              "Availability",
               contactDetails.hours,
               contactDetails.timezone,
             ],

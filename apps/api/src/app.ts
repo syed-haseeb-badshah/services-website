@@ -290,9 +290,38 @@ for (const action of ["confirm", "unsubscribe"] as const)
       });
     },
   );
+app.post("/api/track/revoke", requireOrigin, async (req, res) => {
+  const { eventIds } = z
+    .object({ eventIds: z.array(z.string().uuid()).min(1).max(100) })
+    .strict()
+    .parse(req.body);
+  // Possession of unpredictable event IDs permits cancelling only those undelivered events.
+  await db.outbox.deleteMany({
+    where: {
+      kind: { in: ["meta", "ga4"] },
+      deliveredAt: null,
+      OR: eventIds.map((eventId) => ({
+        payload: { path: ["eventId"], equals: eventId },
+      })),
+    },
+  });
+  res.json({ ok: true });
+});
 app.post("/api/track/event", requireOrigin, async (req, res) => {
   const data = v.tracking.parse(req.body);
   const settings = await publicSettings();
+  const marketing =
+    data.marketing &&
+    settings["pixels.meta_pixel_id"] &&
+    process.env.META_CONVERSIONS_API_ACCESS_TOKEN;
+  const analytics =
+    data.analytics &&
+    settings["pixels.ga4_measurement_id"] &&
+    process.env.GA4_API_SECRET;
+  if (!marketing && !analytics) {
+    res.status(202).json({ accepted: false });
+    return;
+  }
   await db.$transaction(async (tx) => {
     if (await tx.trackingEvent.findUnique({ where: { id: data.eventId } }))
       return;
@@ -307,20 +336,17 @@ app.post("/api/track/event", requireOrigin, async (req, res) => {
     await tx.trackingEvent.create({
       data: { id: data.eventId, name: data.eventName },
     });
-    if (
-      settings["pixels.meta_pixel_id"] &&
-      process.env.META_CONVERSIONS_API_ACCESS_TOKEN
-    )
+    if (marketing)
       await tx.outbox.create({
         data: {
           kind: "meta",
           payload: {
             ...data,
-            ...(lead ? { email: lead.email, phone: lead.phone } : {}),
+            // Never enrich advertising payloads with enquiry data.
           },
         },
       });
-    if (settings["pixels.ga4_measurement_id"] && process.env.GA4_API_SECRET)
+    if (analytics)
       await tx.outbox.create({ data: { kind: "ga4", payload: data } });
   });
   res.status(202).json({ accepted: true });

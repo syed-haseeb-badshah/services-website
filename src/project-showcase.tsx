@@ -121,6 +121,14 @@ export default function ProjectShowcase({
   const [paused, setPaused] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const change = () => {
+      if (media.matches) setPaused(true);
+    };
+    media.addEventListener("change", change);
+    return () => media.removeEventListener("change", change);
+  }, []);
   const stepSize = () => {
     const el = track.current;
     const first = el?.firstElementChild as HTMLElement | null;

@@ -50,10 +50,6 @@ export default function ServiceDetailPage() {
             <AnimatedStats
               key={service.slug}
               items={[
-                [
-                  detail.web ? "50+" : "400",
-                  detail.web ? "Websites created" : "Studio clients",
-                ],
                 [detail.category.services.length, "Related services"],
                 [serviceCategories.length, "Core disciplines"],
                 [service.items.length, "Key deliverables"],
@@ -62,9 +58,7 @@ export default function ServiceDetailPage() {
               ]}
             />
             <p className="detail-stat-note">
-              {detail.web
-                ? "50+ websites across our studio’s website work; not a platform-specific total."
-                : "Client count is across the studio, not this service alone."}
+              Explore the services, deliverables and process for your project.
             </p>
           </div>
         </section>

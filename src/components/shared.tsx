@@ -48,7 +48,7 @@ export function ProjectGrid({ items = projects }: { items?: typeof projects }) {
               </div>
               <div className="mini-content">
                 <small>{p.industry}</small>
-                <h3>{p.line}</h3>
+                <p className="mini-title">{p.line}</p>
                 <img
                   src={p.image}
                   alt={`${p.name} concept art direction`}

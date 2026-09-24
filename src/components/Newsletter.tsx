@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { api } from "../lib/api";
 import SpamCheck from "./SpamCheck";
@@ -47,6 +48,8 @@ export default function Newsletter() {
           <input
             id="newsletter-email"
             name="email"
+            autoComplete="email"
+            maxLength={254}
             type="email"
             required
             placeholder="you@yourbusiness.com"
@@ -55,6 +58,11 @@ export default function Newsletter() {
             {busy ? "Submitting…" : "Subscribe ↗"}
           </button>
         </div>
+        <p>
+          By subscribing, you request studio emails. Confirm via email;
+          unsubscribe at any time.{" "}
+          <Link to="/privacy-policy">Privacy Policy</Link>.
+        </p>
         <SpamCheck key={attempt} action="newsletter" onToken={setToken} />
         <p role="status">{message}</p>
       </form>

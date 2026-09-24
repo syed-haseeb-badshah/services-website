@@ -28,7 +28,24 @@ export default function Layout() {
       ...(brand.email ? { email: brand.email } : {}),
       ...(brand.phone ? { telephone: brand.phone } : {}),
     });
+    const aliases: Record<string, string> = {
+      "/privacy": "/privacy-policy",
+      "/terms": "/terms-and-conditions",
+    };
+    let canonical = document.querySelector<HTMLLinkElement>(
+      'link[rel="canonical"]',
+    );
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+    }
+    canonical.href = location.origin + (aliases[loc.pathname] || loc.pathname);
+    document
+      .querySelector('meta[property="og:url"]')
+      ?.setAttribute("content", canonical.href);
     window.scrollTo(0, 0);
+    document.getElementById("main")?.focus({ preventScroll: true });
     void track("PageView");
     const key = loc.pathname.split("/").filter(Boolean).at(-1);
     document.title = key

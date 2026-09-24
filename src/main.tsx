@@ -7,20 +7,6 @@ import { brand } from "./content";
 import "./style.css";
 import "./theme.css";
 import "./components/application.css";
-if (import.meta.env.VITE_SENTRY_DSN) {
-  void import("@sentry/react").then((Sentry) =>
-    Sentry.init({
-      dsn: import.meta.env.VITE_SENTRY_DSN,
-      sendDefaultPii: false,
-      beforeSend(event) {
-        delete event.request;
-        delete event.user;
-        delete event.breadcrumbs;
-        return event;
-      },
-    }),
-  );
-}
 const Admin = lazy(() => import("./admin/Admin"));
 Object.entries({
   paper: brand.colors.ivory,

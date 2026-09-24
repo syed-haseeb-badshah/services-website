@@ -65,7 +65,12 @@ export default function Pricing() {
       </div>
       <section className="section">
         <h2>Compare the approach.</h2>
-        <div className="table-scroll">
+        <div
+          className="table-scroll"
+          tabIndex={0}
+          role="region"
+          aria-label="Package comparison"
+        >
           <table>
             <caption>
               Proposed package structure — all details subject to agreement

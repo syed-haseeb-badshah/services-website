@@ -56,10 +56,16 @@ export default function PublicRoutes() {
               eyebrow="How we work"
               title="Clear steps. Shared direction."
             />
+            <h2 className="visually-hidden">Project stages</h2>
             <Process />
           </div>
         }
       />
+      <Route path="/privacy-policy" element={<Legal type="Privacy" />} />
+      <Route path="/terms-and-conditions" element={<Legal type="Terms" />} />
+      <Route path="/cookie-policy" element={<Legal type="Cookies" />} />
+      <Route path="/refund-policy" element={<Legal type="Refunds" />} />
+      <Route path="/accessibility" element={<Legal type="Accessibility" />} />
       <Route path="/privacy" element={<Legal type="Privacy" />} />
       <Route path="/terms" element={<Legal type="Terms" />} />
       <Route path="/careers" element={<Simple type="careers" />} />

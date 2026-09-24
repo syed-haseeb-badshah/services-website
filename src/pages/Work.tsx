@@ -22,6 +22,7 @@ export default function Work() {
         }{" "}
         concept projects
       </p>
+      <h2 className="visually-hidden">Concept projects</h2>
       <ProjectGrid
         items={projects.filter((p) => cat === "All work" || p.category === cat)}
       />

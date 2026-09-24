@@ -29,6 +29,7 @@ export async function publicSettings(): Promise<
     ...defaults,
     turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || "",
     ga4ServerRelay: Boolean(process.env.GA4_API_SECRET),
+    metaServerRelay: Boolean(process.env.META_CONVERSIONS_API_ACCESS_TOKEN),
     spamBypass:
       config.NODE_ENV !== "production" && config.DEV_SPAM_BYPASS === "true",
   };
@@ -100,6 +101,18 @@ export async function deliverOutbox() {
       take: 20,
     });
     for (const job of jobs) {
+      const consent = job.payload as Record<string, unknown>;
+      if (
+        (job.kind === "meta" && consent.marketing !== true) ||
+        (job.kind === "ga4" && consent.analytics !== true)
+      ) {
+        // Legacy bundled-consent jobs must not be sent under the new purposes.
+        await db.outbox.update({
+          where: { id: job.id },
+          data: { deliveredAt: new Date(), payload: {} },
+        });
+        continue;
+      }
       // Claim atomically: multiple API processes cannot deliver the same job concurrently.
       const claim = await db.outbox.updateMany({
         where: {
@@ -133,14 +146,9 @@ export async function deliverOutbox() {
             !settings["pixels.meta_pixel_id"]
           )
             throw new Error("Meta is not configured");
-          const pii = payload.email
-            ? {
-                em: [hash(String(payload.email).trim().toLowerCase())],
-                ...(payload.phone
-                  ? { ph: [hash(String(payload.phone).replace(/\D/g, ""))] }
-                  : {}),
-              }
-            : { external_id: [hash(String(payload.clientId))] };
+          if (payload.marketing !== true)
+            throw new Error("Marketing consent missing");
+          const pii = { external_id: [hash(String(payload.clientId))] };
           await sendJson(
             `https://graph.facebook.com/${process.env.META_GRAPH_VERSION || "v23.0"}/${settings["pixels.meta_pixel_id"]}/events`,
             {
@@ -172,6 +180,8 @@ export async function deliverOutbox() {
             !settings["pixels.ga4_measurement_id"]
           )
             throw new Error("GA4 is not configured");
+          if (payload.analytics !== true)
+            throw new Error("Analytics consent missing");
           const names: Record<string, string> = {
             PageView: "page_view",
             Lead: "generate_lead",
@@ -184,8 +194,9 @@ export async function deliverOutbox() {
               client_id: payload.clientId,
               timestamp_micros: job.createdAt.getTime() * 1000,
               consent: {
-                ad_user_data: "GRANTED",
-                ad_personalization: "GRANTED",
+                ad_user_data: payload.marketing === true ? "GRANTED" : "DENIED",
+                ad_personalization:
+                  payload.marketing === true ? "GRANTED" : "DENIED",
               },
               events: [
                 {

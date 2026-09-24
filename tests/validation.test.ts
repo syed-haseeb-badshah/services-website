@@ -60,8 +60,13 @@ test("tracking requires consent and disallows raw PII and query strings", () => 
     path: "/contact",
   };
   assert.equal(tracking.safeParse(data).success, true);
+  assert.equal(tracking.parse(data).analytics, false);
+  assert.equal(tracking.parse(data).marketing, false);
   for (const bad of [
     { ...data, consent: false },
+    { ...data, analytics: "yes" },
+    { ...data, path: "/newsletter/confirm" },
+    { ...data, path: "/admin/leads" },
     { ...data, email: "test@example.com" },
     { ...data, path: "/contact?email=private" },
   ])

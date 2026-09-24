@@ -15,7 +15,7 @@ export default function Footer() {
           </p>
         </div>
         <div>
-          <h3>Explore</h3>
+          <h2>Explore</h2>
           {[
             ["/services", "Services"],
             ["/work", "Our work"],
@@ -28,7 +28,7 @@ export default function Footer() {
           ))}
         </div>
         <div>
-          <h3>The studio</h3>
+          <h2>The studio</h2>
           {[
             ["/about", "About us"],
             ["/process", "Our process"],
@@ -41,7 +41,7 @@ export default function Footer() {
           ))}
         </div>
         <div>
-          <h3>A little help</h3>
+          <h2>A little help</h2>
           {[
             ["/contact", "Start a project"],
             ["/audit", "Website review"],
@@ -59,8 +59,17 @@ export default function Footer() {
           © {new Date().getFullYear()} {brand.name} · An agency concept
         </span>
         <div>
-          <Link to="/privacy">Privacy (draft)</Link>
-          <Link to="/terms">Terms (draft)</Link>
+          <Link to="/privacy-policy">Privacy Policy</Link>
+          <Link to="/terms-and-conditions">Terms &amp; Conditions</Link>
+          <Link to="/cookie-policy">Cookie Policy</Link>
+          <Link to="/refund-policy">Refund / Cancellation Policy</Link>
+          <Link to="/accessibility">Accessibility</Link>
+          <button
+            className="cookie-settings-link"
+            onClick={() => window.dispatchEvent(new Event("cookie-settings"))}
+          >
+            Cookie Settings
+          </button>
           <Link to="/sitemap">Sitemap</Link>
           <a href="#main">Back to top ↑</a>
         </div>

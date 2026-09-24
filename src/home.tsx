@@ -49,7 +49,6 @@ export default function Home() {
           <div className="wrap">
             <AnimatedStats
               items={[
-                [400, "Total clients"],
                 [services.length, "Services offered"],
                 [serviceCategories.length, "Core disciplines"],
                 [projects.length, "Concept projects"],
@@ -58,8 +57,8 @@ export default function Home() {
               ]}
             />
             <p className="studio-evidence-note">
-              <strong>50+ websites created</strong> across our studio’s website
-              work. The previews below are clearly labelled concepts.
+              Explore our services and process. The previews below are
+              illustrative concepts.
             </p>
           </div>
         </section>

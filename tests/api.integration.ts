@@ -225,7 +225,7 @@ test("database-backed API: auth, CSRF, lead, services, revenue, newsletter, rota
       path: "/contact",
     })
     .expect(202);
-  assert.equal(await db.trackingEvent.count(), 1);
+  assert.equal(await db.trackingEvent.count(), 0);
   const refreshed = await agent
     .post("/api/admin/refresh")
     .set("Origin", origin)
@@ -309,7 +309,7 @@ test("refresh replay revokes the family and password changes revoke all sessions
   assert.ok(refreshed.body.csrfToken);
   await db.$disconnect();
 });
-test("outbox hashes Meta PII, excludes Google PII, and clears delivered payloads", async () => {
+test("outbox excludes contact PII from both providers and clears delivered payloads", async () => {
   process.env.RESEND_API_KEY = "test-only";
   process.env.EMAIL_FROM = "test@example.com";
   process.env.META_PIXEL_ID = "123456";
@@ -321,6 +321,8 @@ test("outbox hashes Meta PII, excludes Google PII, and clears delivered payloads
     eventName: "Lead",
     clientId: "123.456",
     path: "/contact",
+    analytics: true,
+    marketing: true,
     email: "person@example.com",
     phone: "+44 7700 900123",
   };
@@ -335,14 +337,92 @@ test("outbox hashes Meta PII, excludes Google PII, and clears delivered payloads
   try {
     await deliverOutbox();
     const meta = calls.find((call) => call.url.includes("graph.facebook.com"))!;
-    assert.equal(meta.body.data[0].user_data.em[0], hash("person@example.com"));
-    assert.equal(meta.body.data[0].user_data.ph[0], hash("447700900123"));
+    assert.equal(meta.body.data[0].user_data.em, undefined);
+    assert.equal(meta.body.data[0].user_data.ph, undefined);
+    assert.equal(meta.body.data[0].user_data.external_id[0], hash("123.456"));
     const google = calls.find((call) =>
       call.url.includes("google-analytics.com"),
     )!;
     assert.ok(!JSON.stringify(google.body).includes("person@example.com"));
     assert.equal(google.body.events[0].name, "generate_lead");
     assert.equal(await db.outbox.count({ where: { deliveredAt: null } }), 0);
+    assert.ok(
+      (await db.outbox.findMany()).every(
+        (job) => JSON.stringify(job.payload) === "{}",
+      ),
+    );
+  } finally {
+    globalThis.fetch = original;
+    await db.$disconnect();
+  }
+});
+
+test("server relay honours independent purposes and rejects unconsented legacy jobs", async () => {
+  process.env.META_PIXEL_ID = "123456";
+  process.env.META_CONVERSIONS_API_ACCESS_TOKEN = "test-only";
+  process.env.GA4_MEASUREMENT_ID = "G-TEST";
+  process.env.GA4_API_SECRET = "test-only";
+  await db.outbox.deleteMany();
+  const base = {
+    eventName: "PageView",
+    consent: true,
+    clientId: "123.456",
+    path: "/",
+  };
+  const analyticsId = crypto.randomUUID();
+  await request(app)
+    .post("/api/track/event")
+    .set("Origin", "http://localhost:5173")
+    .send({ ...base, eventId: analyticsId, analytics: true, marketing: false })
+    .expect(202);
+  assert.equal(await db.outbox.count({ where: { kind: "meta" } }), 0);
+  assert.equal(await db.outbox.count({ where: { kind: "ga4" } }), 1);
+  await request(app)
+    .post("/api/track/event")
+    .set("Origin", "http://localhost:5173")
+    .send({ ...base, eventId: analyticsId, analytics: true, marketing: false })
+    .expect(202);
+  assert.equal(await db.outbox.count(), 1);
+  await request(app)
+    .post("/api/track/event")
+    .set("Origin", "http://localhost:5173")
+    .send({
+      ...base,
+      eventId: crypto.randomUUID(),
+      analytics: false,
+      marketing: true,
+    })
+    .expect(202);
+  assert.equal(await db.outbox.count({ where: { kind: "meta" } }), 1);
+  await request(app)
+    .post("/api/track/revoke")
+    .set("Origin", "https://other.invalid")
+    .send({ eventIds: [analyticsId] })
+    .expect(403);
+  await request(app)
+    .post("/api/track/revoke")
+    .set("Origin", "http://localhost:5173")
+    .send({ eventIds: [analyticsId] })
+    .expect(200);
+  assert.equal(await db.outbox.count({ where: { kind: "ga4" } }), 0);
+  assert.equal(await db.outbox.count({ where: { kind: "meta" } }), 1);
+  await db.outbox.deleteMany();
+  await db.outbox.create({
+    data: {
+      kind: "meta",
+      payload: { email: "old@example.com", consent: true },
+    },
+  });
+  await db.outbox.create({ data: { kind: "ga4", payload: { consent: true } } });
+  const original = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls++;
+    return new Response("{}");
+  };
+  try {
+    await deliverOutbox();
+    assert.equal(calls, 0);
     assert.ok(
       (await db.outbox.findMany()).every(
         (job) => JSON.stringify(job.payload) === "{}",

@@ -369,7 +369,7 @@ img {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.mini-content h3 {
+.mini-content .mini-title {
   font: 30px/1.05 Georgia;
   letter-spacing: -1px;
   margin: 10px 0 17px;
@@ -579,7 +579,7 @@ img {
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 40px;
 }
-.footer h3 {
+.footer h2 {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1.3px;
@@ -1168,7 +1168,7 @@ summary {
     padding: 22px 17px 0;
     height: 285px;
   }
-  .mini-content h3 {
+  .mini-content .mini-title {
     font-size: 24px;
   }
   .mini-nav b {
@@ -1336,7 +1336,7 @@ summary {
     display: block;
     font-size: 6px;
   }
-  .mini-content h3 {
+  .mini-content .mini-title {
     font-size: 37px;
   }
   .mini-content img {
@@ -1563,7 +1563,7 @@ summary {
   .project-meta {
     display: block;
   }
-  .mini-content h3 {
+  .mini-content .mini-title {
     font-size: 28px;
   }
   .mini-nav span {
